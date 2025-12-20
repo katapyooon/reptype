@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # root must use the controller#action form
-  get 'home/index'
+  get "home/index"
   root "home#index"
   resources :questions
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
