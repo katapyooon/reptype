@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # root must use the controller#action form
+  get "home/index"
+  root "home#index"
   resources :questions
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -13,6 +16,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  # Add a route for the questions index as the root path
-  root "questions#index"
+  # `resources :questions` already provides the index route, so the explicit
+  # `get "questions#index"` was removed.
 end
