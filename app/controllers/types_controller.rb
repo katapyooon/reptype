@@ -49,11 +49,11 @@ class TypesController < ApplicationController
 
   # DELETE /types/1 or /types/1.json
   def destroy
-    @type.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to types_path, notice: "Type was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+    @type = Type.find(params[:id])
+    if @type.destroy
+      redirect_to types_url, notice: "Type was successfully destroyed."
+    else
+      redirect_to types_url, alert: @type.errors.full_messages.to_sentence
     end
   end
 
