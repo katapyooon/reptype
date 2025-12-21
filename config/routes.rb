@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :results
   resources :types
   # root must use the controller#action form
   get "home/index"
