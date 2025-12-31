@@ -8,6 +8,12 @@ class QuestionsController < ApplicationController
 
   # GET /questions/1 or /questions/1.json
   def show
+    @question = Question.find(params[:id])
+  end
+
+  def answer
+    # 質問に回答するためのロジックをここに追加できます
+    redirect_to questions_path, notice: "質問に回答する画面に移動しました。"
   end
 
   # GET /questions/new
