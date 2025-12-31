@@ -3,10 +3,12 @@ Rails.application.routes.draw do
   get "home/index"
   root "home#index"
   resources :questions do
-    collection do
-      post "answer", to: "questions#answer"
+    member do
+      post "answer"
     end
   end
+  resources :results
+  resources :types
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
