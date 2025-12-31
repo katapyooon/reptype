@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root "home#index"
   resources :questions do
     collection do
-      post 'answer', to: 'questions#answer'
+      post "answer", to: "questions#answer"
     end
   end
 
