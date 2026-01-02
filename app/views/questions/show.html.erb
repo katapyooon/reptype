@@ -2,9 +2,21 @@
 
 <%= render @question %>
 
+<div id="root" data-question="<%= @question.to_json %>"></div>  <!-- Reactマウントポイント -->
+
 <div>
   <%= link_to "Edit this question", edit_question_path(@question) %> |
   <%= link_to "Back to questions", questions_path %>
 
   <%= button_to "Destroy this question", @question, method: :delete %>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const root = document.getElementById("root");
+    if (root) {
+      const question = JSON.parse(root.dataset.question);  // Railsからデータを取得
+      ReactDOM.createRoot(root).render(<App question={question} />);
+    }
+  });
+</script>
