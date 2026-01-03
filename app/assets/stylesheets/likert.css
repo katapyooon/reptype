@@ -1,0 +1,17 @@
+.likert-scale {
+  display: flex;
+  gap: 12px;
+}
+
+.dot {
+  display: inline-block; /* ← 必須 */
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #333;
+  cursor: pointer;
+}
+
+.dot.selected {
+  background-color: #333;
+}
