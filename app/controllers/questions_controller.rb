@@ -68,6 +68,11 @@ class QuestionsController < ApplicationController
     @question = Question.all
   end
 
+  def show_results
+    # 質問に回答するためのロジックをここに追加できます
+    redirect_to results_path, notice: "結果を表示する画面に移動しました。"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_question

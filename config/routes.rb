@@ -8,7 +8,10 @@ Rails.application.routes.draw do
       post "answer"
     end
   end
-  resources :results
+
+  ## results
+  get "results/index", to: "results#index"
+  
   resources :types
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
