@@ -8,6 +8,7 @@ class ResultsController < ApplicationController
 
   # GET /results/1 or /results/1.json
   def show
+    @result = Result.find(params[:id])
   end
 
   # GET /results/new
