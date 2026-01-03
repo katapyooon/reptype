@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   ## results
   get "results/index", to: "results#index"
-  
+
   resources :types
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
