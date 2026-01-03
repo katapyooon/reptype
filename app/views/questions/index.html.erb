@@ -4,6 +4,17 @@
 
 <h1>Questions</h1>
 
+<%= "Debug: @questions count: #{@questions.count}" %>  <!-- デバッグ追加 -->
+
+<div data-controller="likert" data-likert-questions="<%= @questions.to_json %>">
+  <div data-likert-target="question">
+    <!-- 初期質問はStimulusで表示 -->
+  </div>
+  <div data-likert-target="result" style="display: none;">
+    <p>完了しました！</p>
+  </div>
+</div>
+
 <div id="questions">
   <% @questions.each do |question| %>
     <%= render question %>

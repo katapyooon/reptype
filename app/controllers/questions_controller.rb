@@ -63,6 +63,11 @@ class QuestionsController < ApplicationController
     end
   end
 
+  # Likeert Scale 質問の表示
+  def likert
+    @question = Question.all
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_question
