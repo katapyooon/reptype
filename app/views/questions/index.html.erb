@@ -4,20 +4,19 @@
 
 <h1>Questions</h1>
 
-<%= "Debug: @questions count: #{@questions.count}" %>  <!-- デバッグ追加 -->
-
 <% if @questions.any? %>
-  <div
-    data-controller="likert"
-    data-likert-questions-value="<%= @questions.as_json(only: [:id, :content]).to_json %>">
-
-    <div data-likert-target="question"></div>
-
-    <div data-likert-target="result" style="display: none;">
-      <p>完了しました！</p>
+  <% @questions.each do |question| %>
+    <div>
+      <p><%= question.content %></p>
+      <div>
+        <button>1 (Strongly Disagree)</button>
+        <button>2 (Disagree)</button>
+        <button>3 (Neutral)</button>
+        <button>4 (Agree)</button>
+        <button>5 (Strongly Agree)</button>
+      </div>
     </div>
-
-  </div>
+  <% end %>
 <% else %>
   <p>質問がありません。</p>
 <% end %>
