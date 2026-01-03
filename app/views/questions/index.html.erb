@@ -4,19 +4,26 @@
 
 <h1>Questions</h1>
 
+<%= stylesheet_link_tag "likert", "data-turbo-track": "reload" %>
+
 <% if @questions.any? %>
-  <% @questions.each do |question| %>
-    <div>
-      <p><%= question.content %></p>
-      <div>
-        <button>1 (Strongly Disagree)</button>
-        <button>2 (Disagree)</button>
-        <button>3 (Neutral)</button>
-        <button>4 (Agree)</button>
-        <button>5 (Strongly Agree)</button>
+  <div data-controller="likert">
+    <% @questions.each do |question| %>
+      <div class="question" data-question-id="<%= question.id %>">
+        <p><%= question.content %></p>
+
+        <div class="likert-scale">
+          <% (1..5).each do |i| %>
+            <span
+              class="dot"
+              data-action="click->likert#select"
+              data-value="<%= i %>">
+            </span>
+          <% end %>
+        </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 <% else %>
   <p>質問がありません。</p>
 <% end %>

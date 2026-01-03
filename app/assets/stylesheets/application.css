@@ -9,6 +9,8 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
+ @import "likert.css";
+
  body {
   min-height: 100vh;
   margin: 0;
