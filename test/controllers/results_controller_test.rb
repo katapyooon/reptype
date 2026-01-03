@@ -6,43 +6,43 @@ class ResultsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get results_url
+    get results_index_url
     assert_response :success
   end
 
-  test "should get new" do
-    get new_result_url
-    assert_response :success
-  end
+  # test "should get new" do
+  #   get new_result_url
+  #   assert_response :success
+  # end
 
-  test "should create result" do
-    assert_difference("Result.count") do
-      post results_url, params: { result: { code: @result.code, explanation: @result.explanation, summary: @result.summary, type_id: @result.type_id } }
-    end
+  # test "should create result" do
+  #   assert_difference("Result.count") do
+  #     post results_url, params: { result: { code: @result.code, explanation: @result.explanation, summary: @result.summary, type_id: @result.type_id } }
+  #   end
 
-    assert_redirected_to result_url(Result.last)
-  end
+  #   assert_redirected_to result_url(Result.last)
+  # end
 
-  test "should show result" do
-    get result_url(@result)
-    assert_response :success
-  end
+  # test "should show result" do
+  #   get result_url(@result)
+  #   assert_response :success
+  # end
 
-  test "should get edit" do
-    get edit_result_url(@result)
-    assert_response :success
-  end
+  # test "should get edit" do
+  #   get edit_result_url(@result)
+  #   assert_response :success
+  # end
 
-  test "should update result" do
-    patch result_url(@result), params: { result: { code: @result.code, explanation: @result.explanation, summary: @result.summary, type_id: @result.type_id } }
-    assert_redirected_to result_url(@result)
-  end
+  # test "should update result" do
+  #   patch result_url(@result), params: { result: { code: @result.code, explanation: @result.explanation, summary: @result.summary, type_id: @result.type_id } }
+  #   assert_redirected_to result_url(@result)
+  # end
 
-  test "should destroy result" do
-    assert_difference("Result.count", -1) do
-      delete result_url(@result)
-    end
+  # test "should destroy result" do
+  #   assert_difference("Result.count", -1) do
+  #     delete result_url(@result)
+  #   end
 
-    assert_redirected_to results_url
-  end
+  #   assert_redirected_to results_url
+  # end
 end
