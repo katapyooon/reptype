@@ -5,6 +5,6 @@ class HomeController < ApplicationController
 
   def answer_questions
     # 質問に回答するためのロジックをここに追加できます
-    redirect_to questions_path, notice: "質問に回答する画面に移動しました。"
+    redirect_to questions_path
   end
 end

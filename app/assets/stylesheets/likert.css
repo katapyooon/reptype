@@ -1,6 +1,7 @@
 .likert-scale {
   display: flex;
   gap: 12px;
+    justify-content: center;
 }
 
 .dot {

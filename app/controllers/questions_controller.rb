@@ -13,7 +13,7 @@ class QuestionsController < ApplicationController
 
   def answer
     # 質問に回答するためのロジックをここに追加できます
-    redirect_to questions_path, notice: "質問に回答する画面に移動しました。"
+    redirect_to questions_path
   end
 
   # GET /questions/new
@@ -70,7 +70,7 @@ class QuestionsController < ApplicationController
 
   def show_results
     # 質問に回答するためのロジックをここに追加できます
-    redirect_to results_path, notice: "結果を表示する画面に移動しました。"
+    redirect_to results_path
   end
 
   private
