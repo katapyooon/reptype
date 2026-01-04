@@ -11,22 +11,20 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <div class="gecko">
-      <div class="head">
-        <div class="eye left"></div>
-        <div class="eye right"></div>
-      </div>
-
-      <div class="body"></div>
-      <div class="tail"></div>
-
-      <div class="leg front left"></div>
-      <div class="leg front right"></div>
-      <div class="leg back left"></div>
-      <div class="leg back right"></div>
-    </div>
-
-    <%= yield %>
+  <body style="
+    background-image: 
+      url('<%= asset_path('turtle.jpg') %>'), 
+      url('<%= asset_path('gecko.jpg') %>'), 
+      url('<%= asset_path('frog.jpg') %>'), 
+      url('<%= asset_path('snake.jpg') %>');
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+    background-position: top right, top left, bottom left, bottom right;
+    background-attachment: fixed, fixed, fixed, fixed;
+    background-size: 200px 200px, 200px 200px, 200px 200px, 200px 200px;  /* 必要に応じてサイズ調整 */
+  ">
+    <p style="color: green"><%= notice %></p>
+    <main>
+      <%= yield %>
+    </main>
   </body>
 </html>

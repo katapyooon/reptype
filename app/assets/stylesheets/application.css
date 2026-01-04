@@ -11,92 +11,19 @@
 
  @import "likert.css";
 
- body {
-  min-height: 100vh;
-  margin: 0;
+body {
+  background-image: 
+    url('turtle.jpg'), 
+    url('gecko.jpg'), 
+    url('frog.jpg'), 
+    url('snake.jpg');
+  background-repeat: no-repeat;
+  background-position: top right, top left, bottom left, bottom right;
+  background-attachment: fixed;
 }
 
-/* =========================
-   ヤモリ全体（画面右上）
-========================= */
-.gecko {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-
-  width: 200px;
-  height: 200px;
-
-  z-index: 9999;
+h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-top: 20px;
 }
-
-/* 中身の基準 */
-.gecko * {
-  position: absolute;
-}
-
-/* =========================
-   頭
-========================= */
-.head {
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 60px;
-  background: #7fcf9a;
-  border-radius: 50% 50% 40% 40%;
-}
-
-/* 目 */
-.eye {
-  top: 20px;
-  width: 10px;
-  height: 10px;
-  background: #000;
-  border-radius: 50%;
-}
-
-.eye.left { left: 20px; }
-.eye.right { right: 20px; }
-
-/* =========================
-   胴体
-========================= */
-.body {
-  top: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 70px;
-  height: 80px;
-  background: #8bd9a7;
-  border-radius: 50%;
-}
-
-/* =========================
-   しっぽ
-========================= */
-.tail {
-  top: 140px;
-  left: 50%;
-  transform: translateX(-50%) rotate(15deg);
-  width: 20px;
-  height: 60px;
-  background: #7fcf9a;
-  border-radius: 50%;
-}
-
-/* =========================
-   足
-========================= */
-.leg {
-  width: 40px;
-  height: 12px;
-  background: #7fcf9a;
-  border-radius: 20px;
-}
-
-.front.left  { top: 95px;  left: 10px;  transform: rotate(-20deg); }
-.front.right { top: 95px;  right: 10px; transform: rotate(20deg); }
-.back.left   { top: 125px; left: 10px;  transform: rotate(20deg); }
-.back.right  { top: 125px; right: 10px; transform: rotate(-20deg); }
