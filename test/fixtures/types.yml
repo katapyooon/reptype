@@ -2,8 +2,10 @@
 
 one:
   name: MyString
+  code: TYPE1
   description: MyText
 
 two:
   name: MyString
+  code: TYPE2
   description: MyText

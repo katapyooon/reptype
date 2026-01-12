@@ -65,6 +65,6 @@ class TypesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def type_params
-      params.expect(type: [ :name, :description ])
+      params.expect(type: [ :name, :code, :description ])
     end
 end

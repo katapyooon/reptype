@@ -16,6 +16,7 @@ class TypesTest < ApplicationSystemTestCase
 
     fill_in "Description", with: @type.description
     fill_in "Name", with: @type.name
+    fill_in "type[code]", with: "TYPE3"
     click_on "Create Type"
 
     assert_text "Type was successfully created"
