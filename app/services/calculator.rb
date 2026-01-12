@@ -21,7 +21,7 @@ class Calculator
 
         # それぞれのcategoryでscoreの合計(sum)が13未満の場合はL、13以上の場合はHを返す
         score = answers.sum { |answer| answer.value.to_i }
-        score < 13 ? "L" : "H" 
+        score < 13 ? "L" : "H"
 
         # 4つのcategoryの結果を組み合わせて最終的な評価を返すロジックもここに追加(例：HHLH、LLHHなど)
         # 仮にcategoryA, B, C, Dの結果がそれぞれresultA, resultB, resultC, resultDとして得られたと仮定
@@ -36,6 +36,5 @@ class Calculator
         category_results << calculate_by_category("D", answers)
 
         category_results.join("")
-
     end
 end
