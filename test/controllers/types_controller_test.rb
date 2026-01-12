@@ -16,8 +16,14 @@ class TypesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create type" do
-    assert_difference("Type.count") do
-      post types_url, params: { type: { description: @type.description, name: @type.name } }
+    assert_difference("Type.count", 1) do
+      post types_url, params: {
+        type: {
+          name: "New Type",
+          code: "TYPE3",
+          description: "test description"
+        }
+      }
     end
 
     assert_redirected_to type_url(Type.last)
