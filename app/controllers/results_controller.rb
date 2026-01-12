@@ -22,17 +22,14 @@ class ResultsController < ApplicationController
 
   # POST /results or /results.json
   def create
-    @result = Result.new(result_params)
+    answers = Answer.where(question_id: Question.pluck(:id))
 
-    respond_to do |format|
-      if @result.save
-        format.html { redirect_to @result, notice: "Result was successfully created." }
-        format.json { render :show, status: :created, location: @result }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @result.errors, status: :unprocessable_entity }
-      end
-    end
+    calculator = Calculator.new(answers)
+    code = calculator.result_code
+
+    result = Result.find_by(code: code)
+
+    redirect_to result_path(result)
   end
 
   # PATCH/PUT /results/1 or /results/1.json
@@ -56,6 +53,16 @@ class ResultsController < ApplicationController
       format.html { redirect_to results_path, notice: "Result was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end
+  end
+
+  def calculate_result
+    answers = Answer.order(created_at: :desc).limit(20)
+
+    calculator = Calculator.new(answers)
+    code = calculator.result_code
+
+    result = Result.includes(:type).find_by(code: code)
+    redirect_to result_path(result)
   end
 
   private
