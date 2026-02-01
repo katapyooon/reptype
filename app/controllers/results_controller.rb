@@ -22,14 +22,42 @@ class ResultsController < ApplicationController
 
   # POST /results or /results.json
   def create
-    answers = Answer.where(question_id: Question.pluck(:id))
+    # バリデーション: 全問回答したかチェック
+    question_count = Question.count
+    answers_data = params[:answers] || {}
+    
+    if answers_data.empty? || answers_data.keys.length != question_count
+      redirect_to questions_path, alert: "すべての質問に回答してください。"
+      return
+    end
+
+    # 質問IDを確認
+    question_ids = Question.pluck(:id).map(&:to_s).sort
+    provided_ids = answers_data.keys.sort
+    
+    unless question_ids == provided_ids
+      redirect_to questions_path, alert: "無効な質問データです。"
+      return
+    end
+
+    # 最新の回答データで計算
+    answers = Answer.where(question_id: answers_data.keys.map(&:to_i))
 
     calculator = Calculator.new(answers)
     code = calculator.result_code
 
+    Rails.logger.info "[ResultsController#create] Calculator code: #{code.inspect}"
+    Rails.logger.info "[ResultsController#create] Provided question_ids: #{answers_data.keys.sort.inspect}"
+
     result = Result.find_by(code: code)
 
-    redirect_to result_path(result)
+    if result.present?
+      Rails.logger.info "[ResultsController#create] Found result id=#{result.id} code=#{result.code.inspect}"
+      redirect_to result_path(result)
+    else
+      Rails.logger.warn "[ResultsController#create] No Result found for code=#{code.inspect}. Available codes: #{Result.pluck(:code).uniq.inspect}"
+      redirect_to results_path, alert: "結果が見つかりませんでした。管理者にお問い合わせください。"
+    end
   end
 
   # PATCH/PUT /results/1 or /results/1.json

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   ## results
-  get "results/index", to: "results#index"
+  resources :results, only: [:index, :show, :create, :edit, :update, :destroy]
 
   resources :types
 
