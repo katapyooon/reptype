@@ -4,11 +4,13 @@
 
 <h1>Results</h1>
 
-<div id="results">
-  <% @results.each do |result| %>
-    <%= render result %>
-    <p>
-      <%= link_to "Show this result", results_index_path %>
-    </p>
-  <% end %>
-</div>
+
+<!-- questionから渡されたr結果を表示する(表示するのは、typeテーブルのnameとdescription) -->
+<% @results.each do |result| %>
+  <div class="result">
+    <h2><%= "あなたの結果は #{result.type.name} です！" %></h2>
+    <p><%= result.type.description %></p>
+  </div>
+<% end %>   
+
+
