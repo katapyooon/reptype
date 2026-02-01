@@ -25,7 +25,7 @@ class ResultsController < ApplicationController
     # バリデーション: 全問回答したかチェック
     question_count = Question.count
     answers_data = params[:answers] || {}
-    
+
     if answers_data.empty? || answers_data.keys.length != question_count
       redirect_to questions_path, alert: "すべての質問に回答してください。"
       return
@@ -34,7 +34,7 @@ class ResultsController < ApplicationController
     # 質問IDを確認
     question_ids = Question.pluck(:id).map(&:to_s).sort
     provided_ids = answers_data.keys.sort
-    
+
     unless question_ids == provided_ids
       redirect_to questions_path, alert: "無効な質問データです。"
       return

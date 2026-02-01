@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   ## results
-  resources :results, only: [:index, :show, :create, :edit, :update, :destroy]
+  resources :results, only: [ :index, :show, :create, :edit, :update, :destroy ]
 
   resources :types
 
