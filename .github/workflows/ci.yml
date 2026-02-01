@@ -20,7 +20,7 @@ jobs:
           bundler-cache: true
 
       - name: Scan for common Rails security vulnerabilities using static analysis
-        run: bin/brakeman --no-pager --confidence-level 2 --exit-on-warn -f json -o brakeman.jsonq
+        run: bin/brakeman --no-pager --confidence-level 2 --exit-on-warn -f json -o brakeman.json
 
       - name: Upload Brakeman report
         if: always()
