@@ -1,10 +1,11 @@
 <p style="color: green"><%= notice %></p>
 
+<% content_for :title, "Results" %>
+
+<h1>Results</h1>
+
 <%= render @result %>
 
-<div>
-  <%= link_to "Edit this result", edit_result_path(@result) %> |
-  <%= link_to "Back to results", results_path %>
-
-  <%= button_to "Destroy this result", @result, method: :delete %>
+<div style="margin-top: 2rem;">
+  <%= link_to "もう一度診断する", questions_path, class: "btn btn-primary" %>
 </div>

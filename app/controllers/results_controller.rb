@@ -40,14 +40,12 @@ class ResultsController < ApplicationController
       return
     end
 
-    # 最新の回答データで計算
-    answers = Answer.where(question_id: answers_data.keys.map(&:to_i))
-
-    calculator = Calculator.new(answers)
+    # フォームから送られた回答データをそのまま Calculator に渡す
+    calculator = Calculator.new(answers_data)
     code = calculator.result_code
 
+    Rails.logger.info "[ResultsController#create] Answers: #{answers_data.inspect}"
     Rails.logger.info "[ResultsController#create] Calculator code: #{code.inspect}"
-    Rails.logger.info "[ResultsController#create] Provided question_ids: #{answers_data.keys.sort.inspect}"
 
     result = Result.find_by(code: code)
 

@@ -1,22 +1,15 @@
-<div id="<%= dom_id result %>">
-  <p>
-    <strong>Code:</strong>
-    <%= result.code %>
-  </p>
-
-  <p>
-    <strong>Type:</strong>
-    <%= result.type_id %>
-  </p>
-
-  <p>
-    <strong>Summary:</strong>
-    <%= result.summary %>
-  </p>
-
-  <p>
-    <strong>Explanation:</strong>
-    <%= result.explanation %>
-  </p>
-
+<div id="<%= dom_id result %>" class="result">
+  <h2><%= "あなたの結果は #{result.type.name} です!" %></h2>
+  
+  <p><strong><%= result.type.description %></strong></p>
+  
+  <% if result.summary.present? %>
+    <h3>説明</h3>
+    <p><%= result.summary %></p>
+  <% end %>
+  
+  <% if result.explanation.present? %>
+    <h3>詳細</h3>
+    <p><%= result.explanation %></p>
+  <% end %>
 </div>
