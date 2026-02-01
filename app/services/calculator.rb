@@ -13,9 +13,9 @@ class Calculator
       # handle array of Answer models or array of [question_id, score] pairs
       pairs = answers.map do |a|
         if a.respond_to?(:question_id)
-          [a.question_id.to_s, (a.score || a.value).to_i]
+          [ a.question_id.to_s, (a.score || a.value).to_i ]
         elsif a.is_a?(Array) && a.size == 2
-          [a[0].to_s, a[1].to_i]
+          [ a[0].to_s, a[1].to_i ]
         else
           nil
         end
