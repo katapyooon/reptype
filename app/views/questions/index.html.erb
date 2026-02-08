@@ -4,12 +4,12 @@
 
 <h1>Questions</h1>
 
-<%= stylesheet_link_tag "likert", "data-turbo-track": "reload" %>
+<%= stylesheet_link_tag "likert", "question", "data-turbo-track": "reload" %>
 
 <% if @questions.any? %>
-  <div data-controller="likert">
+  <div class="questions-wrapper" data-controller="likert">
     <% @questions.each do |question| %>
-      <div class="question" data-question-id="<%= question.id %>">
+      <div class="question-item" data-question-id="<%= question.id %>" style="background-color: <%= cycle('#E0F7FA', '#FFFFFF') %>;">
         <p><%= question.content %></p>
 
         <div class="likert-scale" style="text-align: center;">
@@ -17,7 +17,8 @@
             <span
               class="dot"
               data-action="click->likert#select"
-              data-value="<%= i %>">
+              data-value="<%= i %>"
+              data-question-id="<%= question.id %>">
             </span>
           <% end %>
         </div>

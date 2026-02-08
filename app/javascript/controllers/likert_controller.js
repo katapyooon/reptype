@@ -8,16 +8,24 @@ export default class extends Controller {
 
   select(event) {
     const value = Number(event.target.dataset.value)
-    const questionEl = event.target.closest(".question")
+    let questionEl = event.target.closest(".question-item") || event.target.closest(".question")
+
+    // fallback: find by data-question-id attribute on the clicked element
+    if (!questionEl) {
+      const qid = event.target.dataset.questionId
+      if (qid) {
+        questionEl = document.querySelector(`[data-question-id="${qid}"]`)
+      }
+    }
 
     // 同じ質問の dot を取得
-    const dots = questionEl.querySelectorAll(".dot")
+    const dots = questionEl ? questionEl.querySelectorAll(".dot") : [event.target]
 
     dots.forEach((dot, index) => {
       dot.classList.toggle("selected", index < value)
     })
 
-    const questionId = questionEl.dataset.questionId
+    const questionId = questionEl ? questionEl.dataset.questionId : event.target.dataset.questionId
     this.answers[questionId] = value
 
     // 送信ボタンの状態を更新
@@ -43,7 +51,7 @@ export default class extends Controller {
 
   updateSubmitButton() {
     // 全問に回答したかチェック
-    const questionCount = document.querySelectorAll(".question").length
+    const questionCount = document.querySelectorAll(".question-item").length
     const answeredCount = Object.keys(this.answers).length
 
     const submitButton = document.getElementById("submit-button")
