@@ -1,14 +1,17 @@
 <p style="color: green"><%= notice %></p>
 
-<% content_for :title, "Results" %>
+<% content_for :title, "Result" %>
 
-<h1>Results</h1>
+<h1>Result</h1>
 
 
 <!-- questionから渡されたr結果を表示する(表示するのは、typeテーブルのnameとdescription) -->
 <% @results.each do |result| %>
   <div class="result">
     <h2><%= "あなたの結果は #{result.type.name} です！" %></h2>
+    <% if result.type.image_path.present? %>
+      <%= image_tag("#{result.type.image_path}", alt: result.type.name, class: "result-image") %>
+    <% end %>
     <p><%= result.type.description %></p>
   </div>
 <% end %>   
