@@ -7,7 +7,7 @@ class ResultsTest < ApplicationSystemTestCase
 
   test "visiting the index" do
     visit results_index_path
-    assert_selector "h1", text: "Results"
+    assert_selector "h1", text: "Result"
   end
 
   # test "should create result" do
