@@ -1,0 +1,42 @@
+.site-footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid #dee2e6;
+  }
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .footer-link {
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .footer-link:hover {
+    color: #495057;
+    text-decoration: underline;
+  }
+  
+  .copyright {
+    color: #6c757d;
+    font-size: 14px;
+  }
+  
+  /* メインコンテンツがフッターに隠れないようにする */
+  body {
+    padding-bottom: 80px;
+  }

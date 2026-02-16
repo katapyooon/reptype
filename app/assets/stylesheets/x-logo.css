@@ -1,0 +1,14 @@
+.x-link {
+    margin-top: 20px;
+    text-align: left;
+  }
+  
+  .x-logo {
+    width: 50px;  /* ロゴのサイズは適宜調整してください */
+    height: auto;
+    transition: opacity 0.3s ease;
+  }
+  
+  .x-logo:hover {
+    opacity: 0.6;
+  }
