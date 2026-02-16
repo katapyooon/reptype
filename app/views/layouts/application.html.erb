@@ -27,5 +27,16 @@
     <main>
       <%= yield %>
     </main>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-links">
+          <%= link_to "利用規約", terms_path, class: "footer-link" %>
+          <%= link_to "プライバシーポリシー", privacy_path, class: "footer-link" %>
+          <%= link_to "お問い合わせ", inquiry_path, class: "footer-link" %>
+          <span class="copyright">© <%= Time.current.year %> Reptype. All rights reserved.</span>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
