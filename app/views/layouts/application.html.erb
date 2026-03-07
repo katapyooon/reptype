@@ -20,7 +20,7 @@
     background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
     background-position: top right, top left, bottom left, bottom right;
     background-attachment: fixed, fixed, fixed, fixed;
-    background-size: 200px 200px, 200px 200px, 200px 200px, 200px 200px;  /* 必要に応じてサイズ調整 */
+    background-size: 160px 160px, 160px 160px, 160px 160px, 160px 160px;
     text-align: center;
   ">
     <p style="color: green"><%= notice %></p>
@@ -33,7 +33,7 @@
         <div class="footer-links">
           <%= link_to "利用規約", terms_path, class: "footer-link" %>
           <%= link_to "プライバシーポリシー", privacy_path, class: "footer-link" %>
-          <%= link_to "お問い合わせ", inquiry_path, class: "footer-link" %>
+          <%= link_to "お問い合わせ", "https://form.run/@reptype-mrPEd5z08wZlV4XJ1XWo", class: "footer-link", target: "_blank", rel: "noopener noreferrer" %>
           <span class="copyright">© <%= Time.current.year %> Reptype. All rights reserved.</span>
         </div>
       </div>
