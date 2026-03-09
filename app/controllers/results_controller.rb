@@ -1,5 +1,6 @@
 class ResultsController < ApplicationController
   before_action :set_result, only: %i[ show edit update destroy ]
+  before_action :authorize_result!, only: :show  # ④: showに認可チェックを追加
 
   # GET /results or /results.json
   def index
@@ -8,7 +9,7 @@ class ResultsController < ApplicationController
 
   # GET /results/1 or /results/1.json
   def show
-    @result = Result.find(params[:id])
+    # @result は set_result で設定済み（二重findを削除）
   end
 
   # GET /results/new
@@ -51,6 +52,9 @@ class ResultsController < ApplicationController
 
     if result.present?
       Rails.logger.info "[ResultsController#create] Found result id=#{result.id} code=#{result.code.inspect}"
+      # ③: セッション固定化攻撃を防ぐため、結果確定時に新しいセッションIDを生成する
+      reset_session
+      session[:authorized_result_ids] = [ result.id ]
       redirect_to result_path(result)
     else
       Rails.logger.warn "[ResultsController#create] No Result found for code=#{code.inspect}. Available codes: #{Result.pluck(:code).uniq.inspect}"
@@ -95,6 +99,14 @@ class ResultsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_result
       @result = Result.find(params.expect(:id))
+    end
+
+    # ④: セッションに保存された認可済みresult_idと照合する
+    def authorize_result!
+      authorized_ids = session[:authorized_result_ids] || []
+      unless authorized_ids.include?(@result.id)
+        redirect_to root_path, alert: "アクセス権限がありません。診断を完了してから結果を確認してください。"
+      end
     end
 
     # Only allow a list of trusted parameters through.
