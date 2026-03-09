@@ -1,63 +1,137 @@
-<div class="privacy-container">
-  <h1 class="privacy-title">プライバシーポリシー</h1>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プライバシーポリシー</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <div class="privacy-content">
+    body {
+      background: #fff;
+      color: #222;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .page-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .page-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .page-updated {
+      font-size: .85rem;
+      color: #888;
+      margin-bottom: 40px;
+    }
+
+    .privacy-section {
+      margin-bottom: 32px;
+    }
+
+    .privacy-section h2 {
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #111;
+    }
+
+    .privacy-section p {
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .privacy-section ol {
+      padding-left: 0;
+      list-style: none;
+      counter-reset: privacy-counter;
+      color: #333;
+    }
+
+    .privacy-section ol li {
+      counter-increment: privacy-counter;
+      margin-bottom: 6px;
+      padding-left: 1.8em;
+      text-indent: -1.8em;
+    }
+
+    .privacy-section ol li::before {
+      content: counter(privacy-counter) ". ";
+    }
+
+    .privacy-closing {
+      margin-top: 40px;
+      color: #555;
+      font-size: .9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrap">
+
+    <h1 class="page-title">プライバシーポリシー</h1>
+    <p class="page-updated">最終更新日：2026年3月9日</p>
+
     <section class="privacy-section">
-      <h2>1. 個人情報の取り扱いについて</h2>
-      <p>
-        Reptionaryは、ユーザーの個人情報保護の重要性について認識し、個人情報の保護に関する法律を遵守すると共に、以下のプライバシーポリシーに従い、適切な取扱い及び保護に努めます。
-      </p>
+      <h2>第1条（目的）</h2>
+      <p>本プライバシーポリシーは、Reptype（以下「本サービス」といいます。）が、ユーザーの個人情報の取扱いについて定めるものです。本サービスは、ユーザーにおすすめの爬虫類を診断することを目的としています。</p>
     </section>
 
     <section class="privacy-section">
-      <h2>2. 収集する情報</h2>
-      <p>当サービスで収集する情報は以下の通りです：</p>
-      <ul>
-        <li>メールアドレス</li>
-        <li>ユーザー名</li>
-        <li>プロフィール情報</li>
-        <li>爬虫類の写真や情報</li>
-      </ul>
+      <h2>第2条（個人情報の取得について）</h2>
+      <ol>
+        <li>本サービスは、ユーザーの個人情報を保持するものではありません。</li>
+        <li>ユーザーが本サービスを利用するにあたり、氏名、住所、電話番号、メールアドレスなどの個人情報を入力・送信いただくことはありません。</li>
+        <li>本サービスは、診断に必要な質問への回答のみを受け付け、その情報は診断結果の提示にのみ利用し、個人を特定できる形で保存・蓄積することはありません。</li>
+      </ol>
     </section>
 
     <section class="privacy-section">
-      <h2>3. 情報の利用目的</h2>
-      <p>収集した情報は、以下の目的で利用します：</p>
-      <ul>
-        <li>ユーザー認証</li>
-        <li>サービスの提供・運営</li>
-        <li>ユーザーサポート</li>
-        <li>サービスの改善・開発</li>
-        <li>お知らせの送信</li>
-      </ul>
+      <h2>第3条（個人情報の利用目的）</h2>
+      <p>本サービスは、ユーザーから取得する情報（質問への回答など）を、ユーザーに最適な爬虫類を診断し、その結果を提示するためにのみ利用します。</p>
     </section>
 
     <section class="privacy-section">
-      <h2>4. 情報の管理</h2>
-      <p>
-        収集した個人情報は、適切な安全管理措置を講じて管理し、漏洩・紛失・破壊等を防止するように努めます。
-      </p>
+      <h2>第4条（個人情報の第三者提供）</h2>
+      <p>本サービスは、法令に基づく場合を除き、ユーザーから取得した情報を第三者に提供することはありません。</p>
     </section>
 
     <section class="privacy-section">
-      <h2>5. 第三者提供</h2>
-      <p>
-        法令に基づく場合を除き、収集した個人情報を本人の同意なく第三者に提供することはありません。
-      </p>
+      <h2>第5条（個人情報の管理）</h2>
+      <p>本サービスは、ユーザーの個人情報を取得・保持しないため、特別な管理体制は設けておりません。</p>
     </section>
 
     <section class="privacy-section">
-      <h2>6. 開示・訂正・削除</h2>
-      <p>
-        ユーザーご本人からの個人情報の開示・訂正・削除のご要望については、合理的な範囲で対応いたします。
-      </p>
+      <h2>第6条（Cookie（クッキー）その他の技術の利用）</h2>
+      <p>本サービスでは、Cookieその他の類似技術は利用しておりません。</p>
     </section>
 
     <section class="privacy-section">
-      <h2>7. プライバシーポリシーの変更</h2>
-      <p>
-        本ポリシーの内容は、法令変更等の事情により、予告なく変更される場合があります。変更後のプライバシーポリシーは、本サービス上に表示した時点より効力を生じるものとします。
-      </p>
+      <h2>第7条（個人情報に関するお問い合わせ窓口）</h2>
+      <p>本サービスは個人情報を取得・保持しておりませんが、本プライバシーポリシーに関するご質問等がございましたら、以下の窓口までお問い合わせください。</p>
+      <p>（お問い合わせ窓口の設置は、個人情報を取得しないため、現時点では設けておりません。将来的に個人情報を取得するサービスに変更になった場合は、速やかに設置いたします。）</p>
     </section>
+
+    <section class="privacy-section">
+      <h2>第8条（プライバシーポリシーの変更）</h2>
+      <ol>
+        <li>当社は、必要と判断した場合には、いつでも本プライバシーポリシーを変更できるものとします。</li>
+        <li>変更後のプライバシーポリシーは、本サービス上に掲示した時点をもって効力を生じるものとします。</li>
+        <li>ユーザーが本プライバシーポリシーの変更後も本サービスの利用を継続する場合、当該変更に同意したものとみなします。</li>
+      </ol>
+    </section>
+
+    <p class="privacy-closing">以上</p>
+
   </div>
-</div>
+</body>
+</html>

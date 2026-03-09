@@ -1,56 +1,167 @@
-<div class="terms-container">
-  <h1 class="terms-title">利用規約</h1>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>利用規約</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <div class="terms-content">
+    body {
+      background: #fff;
+      color: #222;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .page-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .page-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .page-updated {
+      font-size: .85rem;
+      color: #888;
+      margin-bottom: 40px;
+    }
+
+    .terms-section {
+      margin-bottom: 32px;
+    }
+
+    .terms-section h2 {
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #111;
+    }
+
+    .terms-section p {
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .terms-section ol {
+      padding-left: 0;
+      list-style: none;
+      counter-reset: terms-counter;
+      color: #333;
+    }
+
+    .terms-section ol li {
+      counter-increment: terms-counter;
+      margin-bottom: 6px;
+      padding-left: 1.8em;
+      text-indent: -1.8em;
+    }
+
+    .terms-section ol li::before {
+      content: counter(terms-counter) ". ";
+    }
+
+    .terms-closing {
+      margin-top: 40px;
+      color: #555;
+      font-size: .9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrap">
+
+    <h1 class="page-title">利用規約</h1>
+    <p class="page-updated">最終更新日：2026年3月9日</p>
+
     <section class="terms-section">
-      <h2>1. はじめに</h2>
-      <p>
-        本利用規約（以下「本規約」）は、Reptionaryが提供するウェブサービス（以下「本サービス」）の利用条件を定めるものです。
-      </p>
+      <h2>第1条（目的）</h2>
+      <p>本規約は、ユーザーにおすすめの爬虫類を診断するアプリケーションサービス（以下「本サービス」といいます。）の利用条件を定めるものです。</p>
     </section>
 
     <section class="terms-section">
-      <h2>2. 定義</h2>
-      <p>本規約において使用する用語の定義は以下の通りです：</p>
-      <ul>
-        <li>ユーザー：本サービスを利用する全ての方</li>
-        <li>コンテンツ：本サービス上で提供される全ての情報やデータ</li>
-        <li>投稿データ：ユーザーが本サービスに投稿した全ての情報やデータ</li>
-      </ul>
+      <h2>第2条（定義）</h2>
+      <p>本規約において使用する用語の定義は、以下の通りとします。</p>
+      <ol>
+        <li>「利用者」とは、本規約に同意の上、本サービスを利用する個人または法人をいいます。</li>
+        <li>「本サービス」とは、当社が提供する、利用者の質問への回答に基づき、最適な爬虫類を診断するアプリケーションサービスをいいます。</li>
+        <li>「診断結果」とは、本サービスが利用者の回答に基づいて提示する、おすすめの爬虫類に関する情報およびその理由をいいます。</li>
+      </ol>
     </section>
 
     <section class="terms-section">
-      <h2>3. 利用登録</h2>
-      <p>
-        本サービスの利用を希望する方は、本規約に同意の上、所定の方法で利用登録を行う必要があります。
-      </p>
+      <h2>第3条（本サービスの利用）</h2>
+      <ol>
+        <li>利用者は、本規約に同意することにより、本サービスを利用することができます。</li>
+        <li>利用者は、本サービスを利用するにあたり、当社が定める手順に従って質問に回答するものとします。</li>
+        <li>利用者は、本サービスを通じて提供される診断結果を、個人的な参考情報としてのみ利用するものとし、商業目的での利用、第三者への提供、その他本規約に違反する利用を行ってはなりません。</li>
+      </ol>
     </section>
 
     <section class="terms-section">
-      <h2>4. プライバシー</h2>
-      <p>
-        ユーザーの個人情報の取扱いについては、別途プライバシーポリシーの定めによるものとします。
-      </p>
+      <h2>第4条（個人情報の取扱い）</h2>
+      <ol>
+        <li>当社は、本サービスの提供にあたり、利用者の個人情報を取得、保有、利用することはありません。</li>
+        <li>利用者が本サービスを通じて入力した質問への回答その他の情報は、診断の目的のみに利用され、診断完了後、または一定期間経過後に速やかに消去されるものとします。</li>
+      </ol>
     </section>
 
     <section class="terms-section">
-      <h2>5. 禁止事項</h2>
-      <p>ユーザーは、本サービスの利用にあたり、以下の行為をしてはなりません：</p>
-      <ul>
+      <h2>第5条（知的財産権）</h2>
+      <ol>
+        <li>本サービスに関する著作権、特許権、商標権その他一切の知的財産権は、当社または当社に権利を許諾した第三者に帰属します。</li>
+        <li>利用者は、本サービスを通じて提供される情報を、当社の事前の承諾なく、複製、改変、公衆送信、頒布、譲渡、貸与、翻訳、翻案、二次利用等してはなりません。</li>
+      </ol>
+    </section>
+
+    <section class="terms-section">
+      <h2>第6条（禁止事項）</h2>
+      <p>利用者は、本サービスの利用にあたり、以下の行為を行ってはなりません。</p>
+      <ol>
         <li>法令または公序良俗に違反する行為</li>
         <li>犯罪行為に関連する行為</li>
-        <li>本サービスの運営を妨害する行為</li>
-        <li>他のユーザーに迷惑をかける行為</li>
-        <li>他者の個人情報等を収集または蓄積する行為</li>
-        <li>他者になりすます行為</li>
-      </ul>
+        <li>当社または第三者の知的財産権、肖像権、プライバシー、名誉その他の権利または利益を侵害する行為</li>
+        <li>本サービスを、当社の事前の書面による承諾なく、商業目的で利用する行為</li>
+        <li>本サービスの運営を妨害するおそれのある行為</li>
+        <li>その他、当社が不適切と判断する行為</li>
+      </ol>
     </section>
 
     <section class="terms-section">
-      <h2>6. 免責事項</h2>
-      <p>
-        本サービスは、ユーザーが本サービスを利用して行った行為の結果について、一切の責任を負わないものとします。
-      </p>
+      <h2>第7条（免責事項）</h2>
+      <ol>
+        <li>当社は、本サービスが利用者の特定の目的への適合性、有用性、完全性、正確性等について、一切保証するものではありません。</li>
+        <li>当社は、本サービスの利用により利用者に生じた損害について、一切責任を負わないものとします。ただし、当社の故意または重過失による場合はこの限りではありません。</li>
+        <li>当社は、本サービスの内容、機能、利用条件等を、利用者に事前に通知することなく変更、中断、停止、廃止することができるものとします。</li>
+        <li>当社は、本サービスに中断、停止その他の不具合が発生した場合でも、それにより利用者に生じた損害について一切責任を負わないものとします。</li>
+      </ol>
     </section>
+
+    <section class="terms-section">
+      <h2>第8条（規約の変更）</h2>
+      <ol>
+        <li>当社は、必要と判断した場合には、利用者に通知することなくいつでも本規約を変更できるものとします。</li>
+        <li>変更後の利用規約は、当社が別途定める場合を除き、本サービス上に表示された時点から効力を生じるものとします。</li>
+      </ol>
+    </section>
+
+    <section class="terms-section">
+      <h2>第9条（準拠法・裁判管轄）</h2>
+      <ol>
+        <li>本規約の解釈にあたっては、日本法を準拠法とします。</li>
+        <li>本サービスに関して紛争が生じた場合には、当社の本店所在地を管轄する地方裁判所を第一審の専属的合意管轄裁判所とします。</li>
+      </ol>
+    </section>
+
+    <p class="terms-closing">以上</p>
+
   </div>
-</div>
+</body>
+</html>
