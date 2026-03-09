@@ -1,5 +1,6 @@
 class ResultsController < ApplicationController
   before_action :set_result, only: %i[ show edit update destroy ]
+  before_action :require_admin, only: %i[ edit update destroy ]
 
   # GET /results or /results.json
   def index
@@ -8,7 +9,9 @@ class ResultsController < ApplicationController
 
   # GET /results/1 or /results/1.json
   def show
-    @result = Result.find(params[:id])
+    unless session[:result_id] == @result.id
+      raise ActionController::RoutingError, "Not Found"
+    end
   end
 
   # GET /results/new
@@ -51,6 +54,8 @@ class ResultsController < ApplicationController
 
     if result.present?
       Rails.logger.info "[ResultsController#create] Found result id=#{result.id} code=#{result.code.inspect}"
+      reset_session
+      session[:result_id] = result.id
       redirect_to result_path(result)
     else
       Rails.logger.warn "[ResultsController#create] No Result found for code=#{code.inspect}. Available codes: #{Result.pluck(:code).uniq.inspect}"
