@@ -45,19 +45,19 @@ class ResultsController < ApplicationController
     calculator = Calculator.new(answers_data)
     code = calculator.result_code
 
-    Rails.logger.info "[ResultsController#create] Answers: #{answers_data.inspect}"
-    Rails.logger.info "[ResultsController#create] Calculator code: #{code.inspect}"
+    Rails.logger.debug "[ResultsController#create] Answers: #{answers_data.inspect}"
+    Rails.logger.debug "[ResultsController#create] Calculator code: #{code.inspect}"
 
     result = Result.find_by(code: code)
 
     if result.present?
-      Rails.logger.info "[ResultsController#create] Found result id=#{result.id} code=#{result.code.inspect}"
+      Rails.logger.debug "[ResultsController#create] Found result id=#{result.id} code=#{result.code.inspect}"
       # ③: セッション固定化攻撃を防ぐため、結果確定時に新しいセッションIDを生成する
       reset_session
       session[:authorized_result_ids] = [ result.id ]
       redirect_to result_path(result)
     else
-      Rails.logger.warn "[ResultsController#create] No Result found for code=#{code.inspect}. Available codes: #{Result.pluck(:code).uniq.inspect}"
+      Rails.logger.warn "[ResultsController#create] No Result found for code=#{code.inspect}"
       redirect_to results_path, alert: "結果が見つかりませんでした。管理者にお問い合わせください。"
     end
   end
