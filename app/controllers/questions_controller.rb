@@ -73,14 +73,6 @@ class QuestionsController < ApplicationController
     redirect_to results_path
   end
 
-  def submit_answers
-    # ユーザーの回答を保存するロジックをここに追加できます
-    params[:answers].each do |question_id, score|
-      Answer.create!(question_id: question_id, score: score)
-    end
-    redirect_to results_path
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_question
