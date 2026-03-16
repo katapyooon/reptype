@@ -18,7 +18,7 @@ questions = [
   { category: "D", content: "野性味や迫力を重視したい", position: 17 },
   { category: "D", content: "見ていて癒される存在が良い", position: 18 },
   { category: "D", content: "よく動き回る生き物が好き", position: 19 },
-  { category: "D", content: "色や模様のバリエーション(モルフ)を楽しみたい", position: 20 },
+  { category: "D", content: "色や模様のバリエーション(モルフ)を楽しみたい", position: 20 }
 ]
 
 questions.each do |attrs|
