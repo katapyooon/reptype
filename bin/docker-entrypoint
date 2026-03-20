@@ -6,9 +6,8 @@ if [ -z "${LD_PRELOAD+x}" ]; then
     export LD_PRELOAD
 fi
 
-# If running the rails server then create or migrate existing database
-if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
-  ./bin/rails db:prepare
-fi
+# Run db:migrate on every deploy (db:prepare = create if not exists + migrate)
+# WARNING: db:create と db:seed は初回のみ必要なため、ECSの別タスクとして実行すること
+./bin/rails db:prepare
 
 exec "${@}"
