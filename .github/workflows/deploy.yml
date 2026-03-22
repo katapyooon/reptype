@@ -7,6 +7,9 @@ on:
     types:
       - closed
 
+permissions:
+  contents: read
+
 env:
   AWS_REGION: ap-northeast-1
   ECR_REPOSITORY_APP: rails-reptype
