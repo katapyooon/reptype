@@ -83,7 +83,10 @@ production:
     <<: *default
     database: reptype_production
     username: reptype
-    password: <%= ENV["REPTYPE_DATABASE_PASSWORD"] %>
+    password: <%= ENV["DB_PASSWORD"] %>
+    host: <%= ENV["DB_HOST"] %>
+    port: 5432
+    sslmode: require
   cache:
     <<: *primary_production
     database: reptype_production_cache
