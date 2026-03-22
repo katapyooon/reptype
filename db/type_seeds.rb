@@ -13,7 +13,7 @@ types = [
   { code: "HLLL", name: "ヒョウモントカゲモドキ", description: "初心者・触れ合い入門", image_path: "type/leopardGecko.png" },
 
   { code: "LHHH", name: "ニホンイシガメ", description: "設備必要だが観察が楽しい", image_path: "type/japanesePondTurtle.png" },
-  { code: "LHHL", name: "ヘルマンリクガメ", description: "落ち着いた大型志向", image_path: "type/hermann'sTortoise.png" },
+  { code: "LHHL", name: "ヘルマンリクガメ", description: "落ち着いた大型志向", image_path: "type/hermannsTortoise.png" },
   { code: "LHLH", name: "アカメカブトトカゲ", description: "小型・個性派・観賞向き", image_path: "type/red-eyedCrocodileSkink.png" },
   { code: "LHLL", name: "マレーキャットゲッコー", description: "癒し系・静かな鑑賞", image_path: "type/malaysianCatGecko.png" },
 
