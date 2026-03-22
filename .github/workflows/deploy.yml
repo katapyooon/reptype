@@ -48,6 +48,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build \
+            --platform linux/amd64 \
             -f docker/app/Dockerfile \
             -t $ECR_REGISTRY/$ECR_REPOSITORY_APP:$IMAGE_TAG \
             -t $ECR_REGISTRY/$ECR_REPOSITORY_APP:latest \
@@ -63,6 +64,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build \
+            --platform linux/amd64 \
             -f docker/nginx/Dockerfile \
             -t $ECR_REGISTRY/$ECR_REPOSITORY_NGINX:$IMAGE_TAG \
             -t $ECR_REGISTRY/$ECR_REPOSITORY_NGINX:latest \
