@@ -1,6 +1,6 @@
 # S3 Vectors バケット（ベクトル埋め込みの格納先）
 resource "aws_s3vectors_vector_bucket" "main" {
-  name = "${var.project_name}-kb-vectors-${var.environment}-${var.account_id}"
+  name = "${var.project_name}-kb-vectors-${var.environment}"
 }
 
 # ベクトルインデックス

@@ -11,7 +11,6 @@ module "s3_vectors" {
 
   project_name = "reptype"
   environment  = "stg"
-  account_id   = data.aws_caller_identity.current.account_id
   # vector_dimension のデフォルト値 1024 は amazon.titan-embed-text-v2:0 に対応
 }
 

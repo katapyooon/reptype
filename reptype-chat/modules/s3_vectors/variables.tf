@@ -8,11 +8,6 @@ variable "environment" {
   type        = string
 }
 
-variable "account_id" {
-  description = "AWS アカウント ID（バケット名の一意性確保に使用）"
-  type        = string
-}
-
 variable "vector_dimension" {
   description = "埋め込みベクトルの次元数（モデルに合わせること）"
   type        = number
