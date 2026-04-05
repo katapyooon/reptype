@@ -3,7 +3,6 @@ module "s3_storage" {
 
   project_name = "reptype"
   environment  = "prd"
-  account_id   = data.aws_caller_identity.current.account_id
 }
 
 output "documents_bucket_name" {

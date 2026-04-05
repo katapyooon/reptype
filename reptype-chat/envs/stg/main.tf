@@ -3,7 +3,6 @@ module "s3_storage" {
 
   project_name = "reptype"
   environment  = "stg"
-  account_id   = data.aws_caller_identity.current.account_id
 }
 
 module "s3_vectors" {
