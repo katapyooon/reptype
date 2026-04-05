@@ -8,7 +8,7 @@ terraform {
 
   backend "s3" {
     bucket = "reptype-terraform-state-bucket"
-    key    = "reptype-chat/terraform.tfstate"
+    key    = "reptype-chat/stg/terraform.tfstate"
     region = "ap-northeast-1"
   }
 }
@@ -16,3 +16,5 @@ terraform {
 provider "aws" {
   region = "ap-northeast-1"
 }
+
+data "aws_caller_identity" "current" {}
