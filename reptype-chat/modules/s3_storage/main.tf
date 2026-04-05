@@ -1,7 +1,7 @@
 # Knowledge Base のドキュメント保存用 S3 バケット
 # 将来: Bedrock Knowledge Base のデータソースとして接続する
 resource "aws_s3_bucket" "kb_documents" {
-  bucket = "${var.project_name}-kb-documents-${var.environment}-${var.account_id}"
+  bucket = "${var.project_name}-kb-documents-${var.environment}"
 }
 
 resource "aws_s3_bucket_versioning" "kb_documents" {
