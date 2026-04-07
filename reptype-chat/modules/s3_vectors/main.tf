@@ -1,3 +1,6 @@
+data "aws_region" "current" {}
+data "aws_caller_identity" "current" {}
+
 # S3 Vectors バケット（ベクトル埋め込みの格納先）
 resource "aws_s3vectors_vector_bucket" "main" {
   vector_bucket_name = "${var.project_name}-kb-vectors-${var.environment}"
