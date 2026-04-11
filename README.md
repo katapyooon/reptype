@@ -12,7 +12,6 @@
 
 - **バックエンド:** Ruby on Rails
 - **データベース:** PostgreSQL
-- **インフラ:** Render
 
 ## E-R図
 
