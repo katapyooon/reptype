@@ -15,27 +15,25 @@
 - **インフラ:** AWS（ECS Fargate / RDS / Route53）
 - **IaC:** Terraform
 
-## RAG構成図（reptype-chat）
+## Bedrock Knowledge Base 構成（reptype-chat）
 
-S3に保存された爬虫類に関する文書をもとに、RAGを用いてユーザーの質問に回答するチャット機能の概要です。
+S3に保存された爬虫類に関する文書をもとに、Amazon Bedrock Knowledge Base を用いてユーザーの質問に回答するチャット機能の概要です。
 
 ```mermaid
 flowchart TD
-    subgraph 事前処理
-        S3[(S3\n文書ストレージ)] --> Loader[文書の読み込み]
-        Loader --> Chunker[チャンキング]
-        Chunker --> Embedder[Embedding 生成]
-        Embedder --> VectorDB[(ベクトルDB)]
+    subgraph 事前処理（インデックス構築）
+        Doc[爬虫類に関する文書] --> S3[(S3\nドキュメントバケット)]
+        S3 --> BedrockKB[Amazon Bedrock\nKnowledge Base]
+        BedrockKB --> Titan[Titan Embed Text v2\nEmbedding 生成]
+        Titan --> S3Vec[(S3 Vectors\nベクトルインデックス)]
     end
 
     subgraph 回答生成
         User([ユーザー]) --> Query[質問入力]
-        Query --> QueryEmbed[Embedding 生成]
-        QueryEmbed --> Search[類似検索]
-        VectorDB --> Search
-        Search --> Context[関連文書の取得]
+        Query --> BedrockKB2[Amazon Bedrock\nKnowledge Base]
+        S3Vec --> BedrockKB2
+        BedrockKB2 --> Context[関連文書の取得]
         Context --> LLM[LLM]
-        Query --> LLM
         LLM --> Answer[回答]
         Answer --> User
     end
