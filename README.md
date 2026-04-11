@@ -1,27 +1,43 @@
-# README
+# reptype
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+**URL:** https://16reptype.com
 
-Things you may want to cover:
+## サービス概要
 
-* Ruby version
+「爬虫類を飼いたいけど、どの種類が自分に合っているかわからない」という初心者向けに、最適な爬虫類をレコメンドするWebサービスです。
 
-* System dependencies
+いくつかの質問に答えるだけで、生活スタイルや好みに基づいて16種類の中から飼育に向いている爬虫類を提案します。診断結果では、その爬虫類の特徴や飼育のポイントも確認できます。
 
-* Configuration
+## 使用技術
 
-* Database creation
+- **バックエンド:** Ruby on Rails
+- **データベース:** PostgreSQL（Amazon RDS）
+- **インフラ:** AWS（ECS Fargate / RDS / Route53）
+- **IaC:** Terraform
 
-* Database initialization
+## Bedrock Knowledge Base 構成（reptype-chat）
 
-* How to run the test suite
+S3に保存された爬虫類に関する文書をもとに、Amazon Bedrock Knowledge Base を用いてユーザーの質問に回答するチャット機能の概要です。
 
-* Services (job queues, cache servers, search engines, etc.)
+```mermaid
+flowchart TD
+    subgraph 事前処理
+        Doc[爬虫類に関する文書] --> S3[(S3\nドキュメントバケット)]
+        S3 --> BedrockKB[Amazon Bedrock\nKnowledge Base]
+        BedrockKB --> Titan[Titan Embed Text v2\nEmbedding 生成]
+        Titan --> S3Vec[(S3 Vectors\nベクトルインデックス)]
+    end
 
-* Deployment instructions
-
-* ...
+    subgraph 回答生成
+        User([ユーザー]) --> Query[質問入力]
+        Query --> BedrockKB2[Amazon Bedrock\nKnowledge Base]
+        S3Vec --> BedrockKB2
+        BedrockKB2 --> Context[関連文書の取得]
+        Context --> LLM[LLM]
+        LLM --> Answer[回答]
+        Answer --> User
+    end
+```
 
 ## E-R図
 
