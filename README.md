@@ -21,7 +21,7 @@ S3に保存された爬虫類に関する文書をもとに、Amazon Bedrock Kno
 
 ```mermaid
 flowchart TD
-    subgraph 事前処理(インデックス構築)
+    subgraph 事前処理
         Doc[爬虫類に関する文書] --> S3[(S3\nドキュメントバケット)]
         S3 --> BedrockKB[Amazon Bedrock\nKnowledge Base]
         BedrockKB --> Titan[Titan Embed Text v2\nEmbedding 生成]
