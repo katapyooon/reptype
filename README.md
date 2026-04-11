@@ -1,27 +1,18 @@
-# README
+# reptype
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+**URL:** https://16reptype.com
 
-Things you may want to cover:
+## サービス概要
 
-* Ruby version
+質問に答えるだけで、自分の性格タイプを診断できるWebサービスです。
 
-* System dependencies
+複数のカテゴリにわたる設問に回答すると、スコアに基づいて16種類の中からあなたのタイプを診断します。診断結果ではタイプの特徴や説明を確認できます。
 
-* Configuration
+## 使用技術
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- **バックエンド:** Ruby on Rails
+- **データベース:** PostgreSQL
+- **インフラ:** Render
 
 ## E-R図
 
