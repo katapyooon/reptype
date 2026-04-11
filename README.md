@@ -12,8 +12,7 @@
 
 - **バックエンド:** Ruby on Rails
 - **データベース:** PostgreSQL（Amazon RDS）
-- **インフラ:** AWS（ECS Fargate / RDS / Route53）
-- **IaC:** Terraform
+- **インフラ:** AWS（ECS Fargate / RDS / Route53）/ Terraform（IaC）
 
 ## E-R図
 
