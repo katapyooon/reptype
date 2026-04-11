@@ -23,6 +23,26 @@ module "iam_bedrock_kb" {
   vector_index_arn     = module.s3_vectors.index_arn
 }
 
+module "bedrock_knowledge_base" {
+  source = "../../modules/bedrock_knowledge_base"
+
+  project_name         = "reptype"
+  environment          = "stg"
+  kb_role_arn          = module.iam_bedrock_kb.role_arn
+  vector_index_arn     = module.s3_vectors.index_arn
+  documents_bucket_arn = module.s3_storage.bucket_arn
+}
+
+output "knowledge_base_id" {
+  description = "Knowledge Base ID（同期実行・検索クエリに使用）"
+  value       = module.bedrock_knowledge_base.knowledge_base_id
+}
+
+output "data_source_id" {
+  description = "Data Source ID（同期実行時に使用）"
+  value       = module.bedrock_knowledge_base.data_source_id
+}
+
 output "bedrock_kb_role_arn" {
   description = "Bedrock Knowledge Base 用 IAM ロール ARN"
   value       = module.iam_bedrock_kb.role_arn
