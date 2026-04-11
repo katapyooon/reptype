@@ -11,7 +11,9 @@
 ## 使用技術
 
 - **バックエンド:** Ruby on Rails
-- **データベース:** PostgreSQL
+- **データベース:** PostgreSQL（Amazon RDS）
+- **インフラ:** AWS（ECS Fargate / RDS / Route53）
+- **IaC:** Terraform
 
 ## E-R図
 
