@@ -1,11 +1,11 @@
 class DocumentIngestionService
   # S3 の reptile/:type_id/ 以下の .md ファイルを読み込み、
   # チャンク化して埋め込みを生成し document_chunks に保存する
-  BUCKET_NAME = ENV.fetch("DOCUMENTS_BUCKET_NAME")
   CHUNK_SIZE = 500  # 文字数（日本語で意味的なまとまりを保てるサイズ）
 
   def initialize(reptile_type_id:)
     @reptile_type_id = reptile_type_id
+    @bucket_name = ENV.fetch("DOCUMENTS_BUCKET_NAME")
     @s3 = Aws::S3::Client.new(region: ENV.fetch("AWS_REGION", "ap-northeast-1"))
     @embedding_service = BedrockEmbeddingService.new
   end
@@ -29,14 +29,14 @@ class DocumentIngestionService
 
   def list_document_keys
     prefix = "reptile/#{@reptile_type_id}/"
-    response = @s3.list_objects_v2(bucket: BUCKET_NAME, prefix: prefix)
+    response = @s3.list_objects_v2(bucket: @bucket_name, prefix: prefix)
     response.contents
       .map(&:key)
       .select { |key| key.end_with?(".md") }
   end
 
   def ingest_file(key)
-    body = @s3.get_object(bucket: BUCKET_NAME, key: key).body.read.force_encoding("UTF-8")
+    body = @s3.get_object(bucket: @bucket_name, key: key).body.read.force_encoding("UTF-8")
     chunks = split_into_chunks(body)
     Rails.logger.info "[Ingestion]   #{key}: #{chunks.size} チャンク"
 
