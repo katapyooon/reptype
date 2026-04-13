@@ -46,6 +46,12 @@ gem "sidekiq"
 # Use pgvector for vector search in PostgreSQL [https://github.com/pgvector/pgvector-ruby]
 gem "neighbor"
 
+# AWS S3 client for Active Storage and other S3 interactions [https://github.com/aws/aws-sdk-ruby]
+gem "aws-sdk-s3"
+
+# AWS Bedrock Runtime client for interacting with Bedrock models [https://github.com/aws/aws-sdk-ruby]
+gem "aws-sdk-bedrockruntime"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
