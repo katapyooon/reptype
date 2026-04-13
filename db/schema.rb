@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_07_150429) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_13_102544) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "vector"
 
   create_table "answers", force: :cascade do |t|
     t.bigint "question_id", null: false
@@ -20,6 +21,17 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_07_150429) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_answers_on_question_id"
+  end
+
+  create_table "document_chunks", force: :cascade do |t|
+    t.integer "reptile_type_id", null: false
+    t.string "source_file", null: false
+    t.text "content", null: false
+    t.vector "embedding", limit: 1024
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["embedding"], name: "index_document_chunks_on_embedding", opclass: :vector_cosine_ops, using: :hnsw
+    t.index ["reptile_type_id"], name: "index_document_chunks_on_reptile_type_id"
   end
 
   create_table "questions", force: :cascade do |t|
