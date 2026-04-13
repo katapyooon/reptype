@@ -63,6 +63,7 @@ resource "aws_iam_role_policy" "s3_vectors" {
         Action = [
           "s3vectors:GetVectorBucket",
           "s3vectors:GetIndex",
+          "s3vectors:GetVectors",
           "s3vectors:PutVectors",
           "s3vectors:QueryVectors",
           "s3vectors:DeleteVectors"
