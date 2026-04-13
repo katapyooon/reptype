@@ -28,7 +28,7 @@ class DocumentIngestionService
   private
 
   def list_document_keys
-    prefix = "reptile/#{@reptile_type_id}/"
+    prefix = "docs/reptile/#{@reptile_type_id}/"
     response = @s3.list_objects_v2(bucket: @bucket_name, prefix: prefix)
     response.contents
       .map(&:key)
