@@ -1,8 +1,7 @@
 class BedrockChatService
-  # クロスリージョン推論プロファイル（ap. プレフィックス = Asia Pacific）
-  # Bedrock の仕様変更により直接 model ID の指定は非推奨となり、
-  # inference profile 経由の呼び出しが必要
-  MODEL_ID = "ap.anthropic.claude-3-5-sonnet-20241022-v2:0"
+  # Claude 3 Haiku: ap-northeast-1 で安定して利用可能
+  # Sonnet 系は v1 が Legacy 化・v2 が ap. プロファイル未対応のため Haiku で検証
+  MODEL_ID = "anthropic.claude-3-haiku-20240307-v1:0"
   MAX_TOKENS = 1024
 
   SYSTEM_PROMPT = <<~PROMPT
