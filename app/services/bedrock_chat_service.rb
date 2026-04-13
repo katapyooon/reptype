@@ -1,8 +1,8 @@
 class BedrockChatService
-  # クロスリージョン推論プロファイル（ap. プレフィックス = Asia Pacific）
-  # Bedrock の仕様変更により直接 model ID の指定は非推奨となり、
-  # inference profile 経由の呼び出しが必要
-  MODEL_ID = "ap.anthropic.claude-3-5-sonnet-20241022-v2:0"
+  # Claude 3.5 Sonnet v1（2024年6月版）
+  # ap-northeast-1 でオンデマンド直接呼び出しが可能なバージョン
+  # v2（2024年10月版）は ap. クロスリージョンプロファイルが ap-northeast-1 未対応
+  MODEL_ID = "anthropic.claude-3-5-sonnet-20240620-v1:0"
   MAX_TOKENS = 1024
 
   SYSTEM_PROMPT = <<~PROMPT
