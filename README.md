@@ -21,14 +21,14 @@ S3に保存された爬虫類に関する文書をもとに、pgvector（Postgre
 
 ```mermaid
 flowchart TD
-    subgraph 事前処理（Ingestion）
+    subgraph "事前処理（Ingestion）"
         Doc[爬虫類に関する文書\n.md ファイル] --> S3[(S3\nドキュメントバケット)]
         S3 --> Ingest[Rails\nIngestion サービス]
         Ingest --> Titan1[Bedrock InvokeModel\nTitan Embed Text v2\n埋め込み生成]
         Titan1 --> PG[(PostgreSQL\ndocument_chunks\npgvector)]
     end
 
-    subgraph 回答生成（RAG Query）
+    subgraph "回答生成（RAG Query）"
         User([ユーザー]) --> Query[質問入力]
         Query --> Titan2[Bedrock InvokeModel\nTitan Embed Text v2\nクエリ埋め込み生成]
         Titan2 --> Search[pgvector\nコサイン類似度検索]
