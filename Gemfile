@@ -44,7 +44,7 @@ gem "thruster", require: false
 gem "sidekiq"
 
 # Use pgvector for vector search in PostgreSQL [https://github.com/pgvector/pgvector-ruby]
-gem "neighbor"   
+gem "neighbor"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
