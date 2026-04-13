@@ -33,16 +33,16 @@ resource "aws_bedrockagent_data_source" "s3" {
     }
   }
 
-  # チャンク戦略: 50トークン固定、20% オーバーラップ
-  # 日本語はJSONエスケープ(\uXXXX)で1文字6バイトになる場合があり
-  # 150トークンでもS3 Vectorsのフィルタブルメタデータ上限（2048バイト）を超えるため
-  # さらに小さい50トークンで検証する
+  # チャンク戦略: 10トークン固定、オーバーラップなし
+  # 日本語はJSONエスケープ(\uXXXX)で1文字6バイトになるため
+  # S3 Vectorsのフィルタブルメタデータ上限（2048バイト）を超えないよう
+  # 極小チャンクで動作検証する（検索品質の確認用）
   vector_ingestion_configuration {
     chunking_configuration {
       chunking_strategy = "FIXED_SIZE"
       fixed_size_chunking_configuration {
-        max_tokens         = 50
-        overlap_percentage = 20
+        max_tokens         = 10
+        overlap_percentage = 0
       }
     }
   }
