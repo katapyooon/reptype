@@ -1,0 +1,106 @@
+.chat-section {
+  max-width: 640px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.chat-title {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+/* 画像 + 吹き出しの横並びレイアウト */
+.chat-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.chat-reptile-image {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 吹き出し本体 */
+.speech-bubble {
+  position: relative;
+  background: #ffffff;
+  border: 2px solid #5aab6e;
+  border-radius: 16px;
+  padding: 1rem 1.2rem;
+  flex: 1;
+  text-align: left;
+  min-height: 80px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  word-break: break-word;
+}
+
+/* 吹き出しの左向き三角（枠線） */
+.speech-bubble::before {
+  content: "";
+  position: absolute;
+  left: -13px;
+  top: 22px;
+  border-width: 9px 13px 9px 0;
+  border-style: solid;
+  border-color: transparent #5aab6e transparent transparent;
+}
+
+/* 吹き出しの左向き三角（内側・白） */
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: 24px;
+  border-width: 7px 10px 7px 0;
+  border-style: solid;
+  border-color: transparent #ffffff transparent transparent;
+}
+
+.speech-bubble p {
+  margin: 0;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* 質問フォーム */
+.chat-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.chat-input:focus {
+  border-color: #5aab6e;
+}
+
+.chat-submit {
+  padding: 0.6rem 1.2rem;
+  background: #5aab6e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.chat-submit:hover {
+  background: #489059;
+}
