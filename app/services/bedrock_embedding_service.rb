@@ -2,7 +2,7 @@ class BedrockEmbeddingService
   MODEL_ID = "amazon.titan-embed-text-v2:0"
 
   def initialize
-    @client = Aws::BedrockRuntime::Client.new(region: ENV.fetch("AWS_REGION", "ap-northeast-1"))
+    @client = Aws::BedrockRuntime::Client.new
   end
 
   def embed(text)

@@ -6,7 +6,7 @@ class DocumentIngestionService
   def initialize(reptile_type_id:)
     @reptile_type_id = reptile_type_id
     @bucket_name = ENV.fetch("DOCUMENTS_BUCKET_NAME")
-    @s3 = Aws::S3::Client.new(region: ENV.fetch("AWS_REGION", "ap-northeast-1"))
+    @s3 = Aws::S3::Client.new
     @embedding_service = BedrockEmbeddingService.new
   end
 
