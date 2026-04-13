@@ -33,13 +33,14 @@ resource "aws_bedrockagent_data_source" "s3" {
     }
   }
 
-  # チャンク戦略: 300トークン固定、20% オーバーラップ
-  # 爬虫類の解説文（数百文字程度）に対して適切なサイズ
+  # チャンク戦略: 150トークン固定、20% オーバーラップ
+  # 日本語は UTF-8 で1文字3バイトのため、300トークンだと S3 Vectors の
+  # フィルタブルメタデータ上限（2048バイト）を超える。150トークンで安全圏に収める。
   vector_ingestion_configuration {
     chunking_configuration {
       chunking_strategy = "FIXED_SIZE"
       fixed_size_chunking_configuration {
-        max_tokens         = 300
+        max_tokens         = 150
         overlap_percentage = 20
       }
     }
