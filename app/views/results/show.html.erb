@@ -6,38 +6,9 @@
 
 <%= render @result %>
 
-<% if @result.type.image_path.present? %>
-  <section class="chat-section">
-    <h2 class="chat-title">💬 質問してみよう！</h2>
-
-    <div class="chat-container">
-      <div class="chat-reptile">
-        <%= image_tag @result.type.image_path,
-            alt: @result.type.name,
-            class: "chat-reptile-image" %>
-      </div>
-
-      <%= turbo_frame_tag "chat-bubble" do %>
-        <div class="speech-bubble">
-          <p>こんにちは！<%= @result.type.name %>だよ！なんでも聞いてね！</p>
-        </div>
-      <% end %>
-    </div>
-
-    <%= form_with url: result_chat_path(@result),
-        method: :post,
-        data: { turbo_frame: "chat-bubble" } do |f| %>
-      <div class="chat-form">
-        <%= f.text_field :question,
-            placeholder: "#{@result.type.name}についての質問を入力してください...",
-            class: "chat-input",
-            autocomplete: "off" %>
-        <%= f.submit "送信", class: "chat-submit" %>
-      </div>
-    <% end %>
-  </section>
-<% end %>
-
-<div style="margin-top: 2rem;">
+<div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
   <%= link_to "もう一度診断する", questions_path, class: "btn btn-primary" %>
+  <% if @result.type.image_path.present? %>
+    <%= link_to "質問してみよう！", result_chat_path(@result), class: "btn btn-success" %>
+  <% end %>
 </div>

@@ -2,6 +2,9 @@ class ChatsController < ApplicationController
   before_action :set_result
   before_action :authorize_result!
 
+  def show
+  end
+
   def create
     question = params[:question].to_s.strip
 
@@ -30,8 +33,12 @@ class ChatsController < ApplicationController
   def authorize_result!
     authorized_ids = session[:authorized_result_ids] || []
     unless authorized_ids.include?(@result.id)
-      @answer = "セッションが切れました。もう一度診断してください。"
-      render "chats/create"
+      if action_name == "show"
+        redirect_to result_path(@result), alert: "セッションが切れました。もう一度診断してください。"
+      else
+        @answer = "セッションが切れました。もう一度診断してください。"
+        render "chats/create"
+      end
     end
   end
 end

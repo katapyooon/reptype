@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   # Keep legacy named helper `results_index_path` / `results_index_url` for tests
   get "results/index", to: "results#index", as: :results_index
   resources :results, only: [ :index, :show, :create, :edit, :update, :destroy ] do
-    resource :chat, only: [ :create ]
+    resource :chat, only: [ :show, :create ]
   end
 
   resources :types
