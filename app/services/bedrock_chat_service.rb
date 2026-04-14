@@ -1,7 +1,7 @@
 class BedrockChatService
-  # Claude 3 Haiku: ap-northeast-1 で安定して利用可能
-  # Sonnet 系は v1 が Legacy 化・v2 が ap. プロファイル未対応のため Haiku で検証
-  MODEL_ID = "anthropic.claude-3-haiku-20240307-v1:0"
+  # Amazon Nova 2 Lite: Anthropic 申請不要・ap-northeast-1 対応
+  # Nova は Claude と API 形式が異なる（Messages API ベースだが構造が違う）
+  MODEL_ID = "amazon.nova-2-lite-v1:0"
   MAX_TOKENS = 1024
 
   SYSTEM_PROMPT = <<~PROMPT
@@ -15,10 +15,10 @@ class BedrockChatService
     @client = Aws::BedrockRuntime::Client.new
   end
 
-  # 取得したチャンクと質問を Claude に渡して回答を生成する
+  # 取得したチャンクと質問を Nova に渡して回答を生成する
   # @param question [String] ユーザーの質問
   # @param chunks [Array<DocumentChunk>] RAG で取得した関連チャンク
-  # @return [String] Claude の回答
+  # @return [String] Nova の回答
   def call(question:, chunks:)
     context = chunks.map.with_index(1) { |chunk, i| "【参考#{i}】\n#{chunk.content}" }.join("\n\n")
 
@@ -35,16 +35,20 @@ class BedrockChatService
       content_type: "application/json",
       accept: "application/json",
       body: {
-        anthropic_version: "bedrock-2023-05-31",
-        max_tokens: MAX_TOKENS,
-        system: SYSTEM_PROMPT,
+        system: [ { text: SYSTEM_PROMPT } ],
         messages: [
-          { role: "user", content: user_message }
-        ]
+          {
+            role: "user",
+            content: [ { text: user_message } ]
+          }
+        ],
+        inferenceConfig: {
+          maxNewTokens: MAX_TOKENS
+        }
       }.to_json
     )
 
     body = JSON.parse(response.body.read)
-    body.dig("content", 0, "text")
+    body.dig("output", "message", "content", 0, "text")
   end
 end
