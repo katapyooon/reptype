@@ -1,7 +1,7 @@
 class BedrockChatService
-  # AP クロスリージョン推論プロファイル経由で Nova 2 Lite を呼び出す
-  # オンデマンド直接呼び出しは非対応のため ap. プレフィックスが必要
-  MODEL_ID = "ap.amazon.nova-2-lite-v1:0"
+  # Amazon Nova Lite (v1) US クロスリージョン推論プロファイル
+  # Nova 2 は AP リージョン未対応のため Nova 1 の US プロファイルを使用
+  MODEL_ID = "us.amazon.nova-lite-v1:0"
   MAX_TOKENS = 1024
 
   SYSTEM_PROMPT = <<~PROMPT
