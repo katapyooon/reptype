@@ -1,7 +1,7 @@
 class BedrockChatService
-  # Amazon Nova 2 Lite: Anthropic 申請不要・ap-northeast-1 対応
-  # Nova は Claude と API 形式が異なる（Messages API ベースだが構造が違う）
-  MODEL_ID = "amazon.nova-2-lite-v1:0"
+  # AP クロスリージョン推論プロファイル経由で Nova 2 Lite を呼び出す
+  # オンデマンド直接呼び出しは非対応のため ap. プレフィックスが必要
+  MODEL_ID = "ap.amazon.nova-2-lite-v1:0"
   MAX_TOKENS = 1024
 
   SYSTEM_PROMPT = <<~PROMPT
