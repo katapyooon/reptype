@@ -1,7 +1,7 @@
 class BedrockChatService
-  # Amazon Nova Lite (v1) US クロスリージョン推論プロファイル
-  # Nova 2 は AP リージョン未対応のため Nova 1 の US プロファイルを使用
-  MODEL_ID = "us.amazon.nova-lite-v1:0"
+  # Amazon Nova Lite (v1) AP クロスリージョン推論プロファイル
+  # Tokyo / Seoul / Singapore にルーティングされる AP プロファイルを使用
+  MODEL_ID = "ap.amazon.nova-lite-v1:0"
   MAX_TOKENS = 1024
 
   SYSTEM_PROMPT = <<~PROMPT
