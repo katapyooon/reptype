@@ -9,15 +9,11 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
- @import "likert.css";
- @import "question.css";
- @import "chat.css";
-
 body {
-  background-image: 
-    url('turtle.jpg'), 
-    url('gecko.jpg'), 
-    url('frog.jpg'), 
+  background-image:
+    url('turtle.jpg'),
+    url('gecko.jpg'),
+    url('frog.jpg'),
     url('snake.jpg');
   background-repeat: no-repeat;
   background-position: top right, top left, bottom left, bottom right;
