@@ -8,8 +8,7 @@
       <%= image_tag @result.type.image_path,
           alt: @result.type.name,
           class: "chat-reptile-image",
-          width: 150,
-          height: 150 %>
+          width: 150 %>
     <% end %>
 
     <%= turbo_frame_tag "chat-bubble" do %>
