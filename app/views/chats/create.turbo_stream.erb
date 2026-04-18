@@ -3,7 +3,7 @@
 <%= turbo_stream.append "chat-messages" do %>
   <div class="chat-row chat-row--left">
     <% if @result.type.image_path.present? %>
-      <%= image_tag @result.type.image_path, class: "chat-avatar-img", width: 60, alt: @result.type.name %>
+      <%= image_tag @result.type.image_path, class: "chat-avatar-img", width: 90, alt: @result.type.name %>
     <% end %>
     <div class="speech-bubble speech-bubble--left">
       <%= simple_format @answer %>

@@ -19,7 +19,7 @@
 
 .chat-row {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 0.5rem;
 }
 
@@ -33,7 +33,7 @@
 
 /* 爬虫類アバター画像 */
 .chat-avatar-img {
-  width: 60px;
+  width: 90px;
   height: auto;
   flex-shrink: 0;
   display: block;

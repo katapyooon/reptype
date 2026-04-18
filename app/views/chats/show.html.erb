@@ -2,11 +2,21 @@
 
 <h1><%= @result.type.name %>に質問する</h1>
 
+<%# JS から複製するためのテンプレート画像（非表示） %>
+<% if @result.type.image_path.present? %>
+  <%= image_tag @result.type.image_path,
+      id: "chat-avatar-template",
+      class: "chat-avatar-img",
+      width: 90,
+      alt: @result.type.name,
+      style: "display:none" %>
+<% end %>
+
 <section class="chat-section">
   <div id="chat-messages" class="chat-messages">
     <div class="chat-row chat-row--left">
       <% if @result.type.image_path.present? %>
-        <%= image_tag @result.type.image_path, class: "chat-avatar-img", width: 60, alt: @result.type.name %>
+        <%= image_tag @result.type.image_path, class: "chat-avatar-img", width: 90, alt: @result.type.name %>
       <% end %>
       <div class="speech-bubble speech-bubble--left">
         <p>こんにちは！<%= @result.type.name %>だよ！なんでも聞いてね！</p>
@@ -21,7 +31,7 @@
           class: "chat-input",
           id: "chat-question-input",
           autocomplete: "off" %>
-      <%= f.submit "送信", class: "chat-submit", data: { turbo_submits_with: "送信中..." } %>
+      <%= f.submit "送信", class: "chat-submit" %>
     </div>
   <% end %>
 </section>
@@ -32,36 +42,53 @@
 
 <script>
   (function() {
-    var avatarImgHtml = <%= raw @result.type.image_path.present? ?
-      "\"#{image_tag(@result.type.image_path, class: 'chat-avatar-img', width: 60, alt: @result.type.name).gsub('"', '\\"')}\"" :
-      "''" %>;
+    // Turbo のプログレスバーを非表示（「回答を考え中・・・」で代替）
+    if (typeof Turbo !== "undefined") {
+      Turbo.setProgressBarDelay(999999);
+    }
 
-    document.getElementById("chat-form").addEventListener("submit", function(e) {
+    var form = document.getElementById("chat-form");
+    if (!form) return;
+
+    form.addEventListener("submit", function() {
       var input = document.getElementById("chat-question-input");
       var question = input.value.trim();
       if (!question) return;
 
       var messages = document.getElementById("chat-messages");
 
-      // ユーザーメッセージを即時表示
+      // ユーザーの質問を右吹き出しで即時表示
       var userRow = document.createElement("div");
       userRow.className = "chat-row chat-row--right";
-      var escaped = document.createTextNode(question);
-      var p = document.createElement("p");
-      p.appendChild(escaped);
-      var bubble = document.createElement("div");
-      bubble.className = "speech-bubble speech-bubble--right";
-      bubble.appendChild(p);
-      userRow.appendChild(bubble);
+      var userBubble = document.createElement("div");
+      userBubble.className = "speech-bubble speech-bubble--right";
+      var userP = document.createElement("p");
+      userP.textContent = question;
+      userBubble.appendChild(userP);
+      userRow.appendChild(userBubble);
       messages.appendChild(userRow);
 
-      // 「考え中...」バブルを表示（turbo_stream が来たら除去）
+      // 「回答を考え中・・・」バブルを表示（turbo_stream が来たら除去）
       var loadingRow = document.createElement("div");
       loadingRow.className = "chat-row chat-row--left";
       loadingRow.id = "chat-loading";
-      loadingRow.innerHTML = avatarImgHtml + '<div class="speech-bubble speech-bubble--left chat-loading"><p>考え中...</p></div>';
-      messages.appendChild(loadingRow);
 
+      var template = document.getElementById("chat-avatar-template");
+      if (template) {
+        var avatarClone = template.cloneNode();
+        avatarClone.removeAttribute("id");
+        avatarClone.style.display = "";
+        loadingRow.appendChild(avatarClone);
+      }
+
+      var loadingBubble = document.createElement("div");
+      loadingBubble.className = "speech-bubble speech-bubble--left chat-loading";
+      var loadingP = document.createElement("p");
+      loadingP.textContent = "回答を考え中・・・";
+      loadingBubble.appendChild(loadingP);
+      loadingRow.appendChild(loadingBubble);
+
+      messages.appendChild(loadingRow);
       messages.scrollTop = messages.scrollHeight;
       input.value = "";
     });
