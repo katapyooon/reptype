@@ -8,7 +8,7 @@
 
 <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
   <%= link_to "もう一度診断する", questions_path, class: "btn btn-primary" %>
-  <% if @result.type.image_path.present? %>
+  <% if FEATURES[:chat_enabled] && @result.type.image_path.present? %>
     <%= link_to "質問してみよう！", result_chat_path(@result), class: "btn btn-success" %>
   <% end %>
 </div>

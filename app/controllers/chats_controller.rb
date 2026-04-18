@@ -1,4 +1,5 @@
 class ChatsController < ApplicationController
+  before_action :check_feature_enabled!
   before_action :set_result
   before_action :authorize_result!
 
@@ -25,6 +26,12 @@ class ChatsController < ApplicationController
   end
 
   private
+
+  def check_feature_enabled!
+    unless FEATURES[:chat_enabled]
+      redirect_to root_path, alert: "現在この機能はご利用いただけません。"
+    end
+  end
 
   def set_result
     @result = Result.find(params[:result_id])
