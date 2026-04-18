@@ -6,22 +6,22 @@ class ChatsController < ApplicationController
   end
 
   def create
-    @question = params[:question].to_s.strip
+    question = params[:question].to_s.strip
 
-    if @question.blank?
-      @answer = "なにか質問してみてよ！"
-      respond_to_formats and return
+    if question.blank?
+      render json: { answer: "なにか質問してみてよ！" }
+      return
     end
 
-    chunks = RagSearchService.new(reptile_type_id: @result.type_id).search(@question)
+    chunks = RagSearchService.new(reptile_type_id: @result.type_id).search(question)
 
-    @answer = if chunks.empty?
+    answer = if chunks.empty?
       "うーん、それはちょっとわからないな〜"
     else
-      BedrockChatService.new.call(question: @question, chunks: chunks)
+      BedrockChatService.new.call(question: question, chunks: chunks)
     end
 
-    respond_to_formats
+    render json: { answer: answer }
   end
 
   private
@@ -36,17 +36,8 @@ class ChatsController < ApplicationController
       if action_name == "show"
         redirect_to result_path(@result), alert: "セッションが切れました。もう一度診断してください。"
       else
-        @question = ""
-        @answer = "セッションが切れました。もう一度診断してください。"
-        respond_to_formats
+        render json: { answer: "セッションが切れました。もう一度診断してください。" }
       end
-    end
-  end
-
-  def respond_to_formats
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to result_chat_path(@result) }
     end
   end
 end

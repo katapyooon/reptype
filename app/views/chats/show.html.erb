@@ -24,18 +24,16 @@
     </div>
   </div>
 
-  <%# data-turbo="false" で Turbo Drive を介さず JS の fetch で送信する %>
-  <%= form_with url: result_chat_path(@result), method: :post, id: "chat-form",
-      data: { turbo: false } do |f| %>
+  <form id="chat-form">
     <div class="chat-form">
-      <%= f.text_field :question,
-          placeholder: "#{@result.type.name}についての質問を入力してください...",
-          class: "chat-input",
-          id: "chat-question-input",
-          autocomplete: "off" %>
-      <%= f.submit "送信", class: "chat-submit", id: "chat-submit" %>
+      <input type="text"
+             id="chat-question-input"
+             class="chat-input"
+             placeholder="<%= @result.type.name %>についての質問を入力してください..."
+             autocomplete="off">
+      <button type="submit" id="chat-submit" class="chat-submit">送信</button>
     </div>
-  <% end %>
+  </form>
 </section>
 
 <div style="margin-top: 2rem;">
@@ -44,12 +42,14 @@
 
 <script>
   (function() {
-    var form    = document.getElementById("chat-form");
-    var input   = document.getElementById("chat-question-input");
-    var submit  = document.getElementById("chat-submit");
+    var CHAT_URL   = "<%= result_chat_path(@result) %>";
+    var CSRF_TOKEN = (document.querySelector('meta[name="csrf-token"]') || {}).content || "";
+
+    var form     = document.getElementById("chat-form");
+    var input    = document.getElementById("chat-question-input");
+    var submit   = document.getElementById("chat-submit");
     var messages = document.getElementById("chat-messages");
     var template = document.getElementById("chat-avatar-template");
-    var csrfToken = (document.querySelector('meta[name="csrf-token"]') || {}).content || "";
 
     function makeAvatarImg() {
       if (!template) return null;
@@ -59,26 +59,25 @@
       return img;
     }
 
-    function appendRow(side, contentEl) {
+    function appendRow(side, text) {
       var row = document.createElement("div");
       row.className = "chat-row chat-row--" + side;
+
       if (side === "left") {
         var avatar = makeAvatarImg();
         if (avatar) row.appendChild(avatar);
       }
-      row.appendChild(contentEl);
-      messages.appendChild(row);
-      messages.scrollTop = messages.scrollHeight;
-      return row;
-    }
 
-    function makeBubble(side, text) {
       var bubble = document.createElement("div");
       bubble.className = "speech-bubble speech-bubble--" + side;
       var p = document.createElement("p");
       p.textContent = text;
       bubble.appendChild(p);
-      return bubble;
+      row.appendChild(bubble);
+
+      messages.appendChild(row);
+      messages.scrollTop = messages.scrollHeight;
+      return row;
     }
 
     form.addEventListener("submit", async function(e) {
@@ -87,39 +86,47 @@
       var question = input.value.trim();
       if (!question) return;
 
-      // ① ユーザーの質問を右吹き出しで即時表示
-      appendRow("right", makeBubble("right", question));
+      // ① 質問を右吹き出しで即時表示
+      appendRow("right", question);
 
       // ② 「回答を考え中・・・」を爬虫類画像の右に表示
-      var loadingBubble = makeBubble("left", "回答を考え中・・・");
-      loadingBubble.classList.add("chat-loading");
-      var loadingRow = appendRow("left", loadingBubble);
-      loadingRow.id = "chat-loading";
+      var loadingBubble = document.createElement("div");
+      loadingBubble.className = "speech-bubble speech-bubble--left chat-loading";
+      var loadingP = document.createElement("p");
+      loadingP.textContent = "回答を考え中・・・";
+      loadingBubble.appendChild(loadingP);
+
+      var loadingRow = document.createElement("div");
+      loadingRow.className = "chat-row chat-row--left";
+      var avatar = makeAvatarImg();
+      if (avatar) loadingRow.appendChild(avatar);
+      loadingRow.appendChild(loadingBubble);
+      messages.appendChild(loadingRow);
+      messages.scrollTop = messages.scrollHeight;
 
       input.value = "";
       submit.disabled = true;
 
       try {
-        // ③ Turbo を介さず fetch で送信（プログレスバーが出ない）
-        var formData = new FormData(form);
-        formData.set("question", question);
-
-        var res = await fetch(form.action, {
+        // ③ fetch で JSON として送信
+        var res = await fetch(CHAT_URL, {
           method: "POST",
-          body: formData,
           headers: {
-            "Accept": "text/vnd.turbo-stream.html",
-            "X-CSRF-Token": csrfToken
-          }
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "X-CSRF-Token": CSRF_TOKEN
+          },
+          body: JSON.stringify({ question: question })
         });
 
-        var html = await res.text();
-        // ④ turbo_stream レスポンスを適用（「考え中」除去 → 回答追加）
-        Turbo.renderStreamMessage(html);
-        messages.scrollTop = messages.scrollHeight;
+        var data = await res.json();
+
+        // ④ 「考え中」を除去して回答を表示
+        loadingRow.remove();
+        appendRow("left", data.answer || "回答を取得できなかったよ。");
       } catch (_) {
         loadingRow.remove();
-        appendRow("left", makeBubble("left", "エラーが発生したよ。もう一度試してみてね。"));
+        appendRow("left", "エラーが発生したよ。もう一度試してみてね。");
       } finally {
         submit.disabled = false;
       }
