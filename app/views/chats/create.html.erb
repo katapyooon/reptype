@@ -1,0 +1,15 @@
+<%= turbo_stream.append "chat-messages" do %>
+  <div class="chat-row chat-row--right">
+    <div class="speech-bubble speech-bubble--right">
+      <p><%= @question %></p>
+    </div>
+  </div>
+<% end %>
+
+<%= turbo_stream.append "chat-messages" do %>
+  <div class="chat-row chat-row--left">
+    <div class="speech-bubble speech-bubble--left">
+      <%= simple_format @answer %>
+    </div>
+  </div>
+<% end %>

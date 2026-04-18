@@ -1,0 +1,41 @@
+<% content_for :title, "#{@result.type.name}に質問する" %>
+
+<h1><%= @result.type.name %>に質問する</h1>
+
+<%# JS から複製するためのテンプレート画像（非表示） %>
+<% if @result.type.image_path.present? %>
+  <%= image_tag @result.type.image_path,
+      id: "chat-avatar-template",
+      class: "chat-avatar-img",
+      width: 90,
+      alt: @result.type.name,
+      style: "display:none" %>
+<% end %>
+
+<section class="chat-section">
+  <div id="chat-messages" class="chat-messages">
+    <div class="chat-row chat-row--left">
+      <% if @result.type.image_path.present? %>
+        <%= image_tag @result.type.image_path, class: "chat-avatar-img", width: 90, alt: @result.type.name %>
+      <% end %>
+      <div class="speech-bubble speech-bubble--left">
+        <p>こんにちは！<%= @result.type.name %>だよ！なんでも聞いてね！</p>
+      </div>
+    </div>
+  </div>
+
+  <form id="chat-form" data-chat-url="<%= result_chat_path(@result) %>">
+    <div class="chat-form">
+      <input type="text"
+             id="chat-question-input"
+             class="chat-input"
+             placeholder="<%= @result.type.name %>についての質問を入力してください..."
+             autocomplete="off">
+      <button type="submit" id="chat-submit" class="chat-submit">送信</button>
+    </div>
+  </form>
+</section>
+
+<div style="margin-top: 2rem;">
+  <%= link_to "結果に戻る", result_path(@result), class: "btn btn-secondary" %>
+</div>

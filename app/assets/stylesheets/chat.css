@@ -1,0 +1,160 @@
+.chat-section {
+  max-width: 640px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* チャット履歴エリア */
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-height: 460px;
+  overflow-y: auto;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.chat-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.chat-row--left {
+  justify-content: flex-start;
+}
+
+.chat-row--right {
+  justify-content: flex-end;
+}
+
+/* 爬虫類アバター画像 */
+.chat-avatar-img {
+  width: 90px;
+  height: auto;
+  flex-shrink: 0;
+  display: block;
+}
+
+/* 爬虫類の吹き出し（左） */
+.speech-bubble--left {
+  position: relative;
+  background: #ffffff;
+  border: 2px solid #5aab6e;
+  border-radius: 16px;
+  padding: 0.8rem 1rem;
+  max-width: 70%;
+  text-align: left;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  word-break: break-word;
+}
+
+.speech-bubble--left::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 14px;
+  border-width: 8px 14px 8px 0;
+  border-style: solid;
+  border-color: transparent #5aab6e transparent transparent;
+}
+
+.speech-bubble--left::after {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 16px;
+  border-width: 6px 10px 6px 0;
+  border-style: solid;
+  border-color: transparent #ffffff transparent transparent;
+}
+
+/* ユーザーの吹き出し（右） */
+.speech-bubble--right {
+  position: relative;
+  background: #dcf8c6;
+  border: 2px solid #a5d6a7;
+  border-radius: 16px;
+  padding: 0.8rem 1rem;
+  max-width: 70%;
+  text-align: left;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  word-break: break-word;
+}
+
+.speech-bubble--right::before {
+  content: "";
+  position: absolute;
+  right: -14px;
+  top: 14px;
+  border-width: 8px 0 8px 14px;
+  border-style: solid;
+  border-color: transparent transparent transparent #a5d6a7;
+}
+
+.speech-bubble--right::after {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: 16px;
+  border-width: 6px 0 6px 10px;
+  border-style: solid;
+  border-color: transparent transparent transparent #dcf8c6;
+}
+
+.speech-bubble--left p,
+.speech-bubble--right p {
+  margin: 0;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* 考え中... のアニメーション */
+.chat-loading p {
+  color: #999;
+  animation: blink 1.2s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* 質問フォーム */
+.chat-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.chat-input:focus {
+  border-color: #5aab6e;
+}
+
+.chat-submit {
+  padding: 0.6rem 1.2rem;
+  background: #5aab6e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.chat-submit:hover {
+  background: #489059;
+}
