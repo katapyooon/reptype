@@ -19,12 +19,15 @@
 }
 
 .chat-reptile-image {
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   object-fit: cover;
+  object-position: center;
   border-radius: 12px;
   flex-shrink: 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: block;
+  overflow: hidden;
 }
 
 /* 吹き出し本体 */
