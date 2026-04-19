@@ -55,6 +55,9 @@ gem "aws-sdk-bedrockruntime"
 # PDF text extraction for document ingestion [https://github.com/yob/pdf-reader]
 gem "pdf-reader"
 
+# Environment variable management [https://github.com/bkeepers/dotenv]
+gem "dotenv-rails", groups: [ :development, :test ]
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
