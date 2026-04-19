@@ -54,6 +54,11 @@ gem "aws-sdk-bedrockruntime"
 
 # DDoS protection and rate limiting [https://github.com/rack/rack-attack]
 gem "rack-attack"
+# PDF text extraction for document ingestion [https://github.com/yob/pdf-reader]
+gem "pdf-reader"
+
+# Environment variable management [https://github.com/bkeepers/dotenv]
+gem "dotenv-rails", groups: [ :development, :test ]
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
