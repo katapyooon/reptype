@@ -52,6 +52,9 @@ gem "aws-sdk-s3"
 # AWS Bedrock Runtime client for interacting with Bedrock models [https://github.com/aws/aws-sdk-ruby]
 gem "aws-sdk-bedrockruntime"
 
+# DDoS protection and rate limiting [https://github.com/rack/rack-attack]
+gem "rack-attack"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
