@@ -52,6 +52,8 @@ gem "aws-sdk-s3"
 # AWS Bedrock Runtime client for interacting with Bedrock models [https://github.com/aws/aws-sdk-ruby]
 gem "aws-sdk-bedrockruntime"
 
+# DDoS protection and rate limiting [https://github.com/rack/rack-attack]
+gem "rack-attack"
 # PDF text extraction for document ingestion [https://github.com/yob/pdf-reader]
 gem "pdf-reader"
 
