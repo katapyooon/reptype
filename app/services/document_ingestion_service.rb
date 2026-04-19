@@ -1,7 +1,8 @@
 class DocumentIngestionService
-  # S3 の reptile/:type_id/ 以下の .md ファイルを読み込み、
+  # S3 の reptile/:type_id/ 以下の .md / .pdf ファイルを読み込み、
   # チャンク化して埋め込みを生成し document_chunks に保存する
   CHUNK_SIZE = 500  # 文字数（日本語で意味的なまとまりを保てるサイズ）
+  SUPPORTED_EXTENSIONS = %w[.md .pdf].freeze
 
   def initialize(reptile_type_id:)
     @reptile_type_id = reptile_type_id
@@ -32,12 +33,13 @@ class DocumentIngestionService
     response = @s3.list_objects_v2(bucket: @bucket_name, prefix: prefix)
     response.contents
       .map(&:key)
-      .select { |key| key.end_with?(".md") }
+      .select { |key| SUPPORTED_EXTENSIONS.any? { |ext| key.end_with?(ext) } }
   end
 
   def ingest_file(key)
-    body = @s3.get_object(bucket: @bucket_name, key: key).body.read.force_encoding("UTF-8")
-    chunks = split_into_chunks(body)
+    body = @s3.get_object(bucket: @bucket_name, key: key).body.read
+    text = extract_text(key, body)
+    chunks = split_into_chunks(text)
     Rails.logger.info "[Ingestion]   #{key}: #{chunks.size} チャンク"
 
     chunks.each do |chunk|
@@ -51,6 +53,22 @@ class DocumentIngestionService
         embedding: embedding
       )
     end
+  end
+
+  def extract_text(key, body)
+    if key.end_with?(".pdf")
+      extract_pdf_text(body)
+    else
+      body.force_encoding("UTF-8")
+    end
+  end
+
+  def extract_pdf_text(body)
+    reader = PDF::Reader.new(StringIO.new(body))
+    reader.pages.map(&:text).join("\n\n").strip
+  rescue PDF::Reader::MalformedPDFError, PDF::Reader::UnsupportedFeatureError => e
+    Rails.logger.warn "[Ingestion] PDF 読み込みエラー: #{e.message}"
+    ""
   end
 
   # Markdown の ## 見出しを区切りとしてチャンク分割する。
