@@ -20,7 +20,7 @@ class Rack::Attack
   end
 
   throttled_responder = lambda do |req|
-    [429, { "Content-Type" => "application/json" }, [{ error: "Too many requests. Please try again later." }.to_json]]
+    [ 429, { "Content-Type" => "application/json" }, [ { error: "Too many requests. Please try again later." }.to_json ] ]
   end
   self.throttled_responder = throttled_responder
 end
