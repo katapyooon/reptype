@@ -22,7 +22,7 @@ S3に保存された爬虫類に関する文書をもとに、pgvector（Postgre
 ```mermaid
 flowchart TD
     subgraph "事前処理（Ingestion）"
-        Doc[爬虫類に関する文書\n.md ファイル] --> S3[(S3\nドキュメントバケット)]
+        Doc[爬虫類に関する文書\n.md ファイル\nPDFファイル] --> S3[(S3\nドキュメントバケット)]
         S3 --> Ingest[Rails\nIngestion サービス]
         Ingest --> Titan1[Bedrock InvokeModel\nTitan Embed Text v2\n埋め込み生成]
         Titan1 --> PG[(PostgreSQL\ndocument_chunks\npgvector)]
