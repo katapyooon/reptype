@@ -31,6 +31,12 @@ export default class extends Controller {
     // 送信ボタンの状態を更新
     this.updateSubmitButton()
 
+    // 次の設問へスクロール
+    const nextQuestion = questionEl ? questionEl.nextElementSibling : null
+    if (nextQuestion && nextQuestion.classList.contains("question-item")) {
+      nextQuestion.scrollIntoView({ behavior: "smooth", block: "center" })
+    }
+
     // 回答をデータベースに保存
     fetch("/answers", {
       method: "POST",
