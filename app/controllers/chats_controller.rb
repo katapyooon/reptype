@@ -19,7 +19,7 @@ class ChatsController < ApplicationController
     answer = if chunks.empty?
       "うーん、それはちょっとわからないな〜"
     else
-      BedrockChatService.new.call(question: question, chunks: chunks)
+      BedrockChatService.new.call(question: question, chunks: chunks, reptile_name: @result.type.name)
     end
 
     render json: { answer: answer }
