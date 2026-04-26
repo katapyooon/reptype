@@ -47,11 +47,14 @@ function initChat() {
   var CHAT_URL   = form.dataset.chatUrl;
   var CSRF_TOKEN = (document.querySelector('meta[name="csrf-token"]') || {}).content || "";
 
+  var CHAR_LIMIT = 400;
+
   var input    = document.getElementById("chat-question-input");
   var submit   = document.getElementById("chat-submit");
   var messages = document.getElementById("chat-messages");
   var template = document.getElementById("chat-avatar-template");
   var piiWarning = document.getElementById("chat-pii-warning");
+  var charCount = document.getElementById("chat-char-count");
 
   function showPiiWarning() {
     if (piiWarning) piiWarning.classList.add("is-visible");
@@ -63,7 +66,16 @@ function initChat() {
     input.classList.remove("has-pii-error");
   }
 
+  function updateCharCount() {
+    var len = input.value.length;
+    if (charCount) {
+      charCount.textContent = len + " / " + CHAR_LIMIT;
+      charCount.classList.toggle("is-over-limit", len >= CHAR_LIMIT);
+    }
+  }
+
   input.addEventListener("input", function() {
+    updateCharCount();
     if (detectPii(input.value)) {
       showPiiWarning();
     } else {

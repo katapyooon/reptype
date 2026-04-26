@@ -14,6 +14,11 @@ class ChatsController < ApplicationController
       return
     end
 
+    if question.length > 400
+      render json: { answer: "質問は400文字以内にしてね！" }
+      return
+    end
+
     chunks = RagSearchService.new(reptile_type_id: @result.type_id).search(question)
 
     answer = if chunks.empty?

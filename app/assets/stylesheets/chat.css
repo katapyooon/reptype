@@ -159,13 +159,22 @@
   background: #489059;
 }
 
+/* フォーム下部（警告・文字数カウンター） */
+.chat-form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 1.4rem;
+  margin-top: 0.4rem;
+}
+
 /* 個人情報警告メッセージ */
 .chat-pii-warning {
   display: none;
   color: #e53e3e;
   font-size: 0.85rem;
-  margin-top: 0.4rem;
   font-weight: 500;
+  margin: 0;
 }
 
 .chat-pii-warning.is-visible {
@@ -174,4 +183,16 @@
 
 .chat-input.has-pii-error {
   border-color: #e53e3e;
+}
+
+/* 文字数カウンター */
+.chat-char-count {
+  font-size: 0.8rem;
+  color: #999;
+  margin-left: auto;
+}
+
+.chat-char-count.is-over-limit {
+  color: #e53e3e;
+  font-weight: 500;
 }
