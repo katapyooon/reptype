@@ -158,3 +158,20 @@
 .chat-submit:hover {
   background: #489059;
 }
+
+/* 個人情報警告メッセージ */
+.chat-pii-warning {
+  display: none;
+  color: #e53e3e;
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+  font-weight: 500;
+}
+
+.chat-pii-warning.is-visible {
+  display: block;
+}
+
+.chat-input.has-pii-error {
+  border-color: #e53e3e;
+}
