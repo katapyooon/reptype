@@ -9,13 +9,13 @@ class Rack::Attack
 
   # チャットAPI: IP単位で1分間5回まで（Bedrock課金防止）
   throttle("chat/ip", limit: 5, period: 1.minute) do |req|
-    req.ip if req.path.start_with?("/chat")
+    req.ip if req.path.include?("/chat")
   end
 
   # 短時間に集中した攻撃をブロック（10秒間に30超でban、5分間）
   blocklist("chat/ip/burst") do |req|
     Rack::Attack::Allow2Ban.filter(req.ip, maxretry: 30, findtime: 10.seconds, bantime: 5.minutes) do
-      req.path.start_with?("/chat")
+      req.path.include?("/chat")
     end
   end
 
