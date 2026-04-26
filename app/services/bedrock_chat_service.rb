@@ -1,5 +1,5 @@
 class BedrockChatService
-  MODEL_ID = "anthropic.claude-haiku-4-5-20251001-v1:0"
+  MODEL_ID = "ap.anthropic.claude-haiku-4-5-20251001-v1:0"
   MAX_TOKENS = 1024
 
   def initialize
