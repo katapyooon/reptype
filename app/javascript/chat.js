@@ -1,3 +1,41 @@
+// ==========================================
+// 個人情報検知バリデーション
+// ==========================================
+
+// パターンマッチング（正規表現）
+var PII_REGEX_PATTERNS = [
+  // 電話番号（固定電話・携帯）
+  { pattern: /(\+81[-\s]?|0)\d{1,4}[-\s]?\d{2,4}[-\s]?\d{4}/, label: "電話番号" },
+  // メールアドレス
+  { pattern: /[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/, label: "メールアドレス" },
+  // クレジットカード番号（4桁×4）
+  { pattern: /\b\d{4}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b/, label: "クレジットカード番号" },
+  // 郵便番号
+  { pattern: /〒?\d{3}[-\s]?\d{4}/, label: "郵便番号" },
+];
+
+// NER: 人名・組織名・地名パターン
+var NER_PATTERNS = [
+  // 人名: 名前 + 敬称（さん・くん・ちゃん・様・先生・氏・殿）
+  { pattern: /\S{1,10}(?:さん|くん|ちゃん|様|先生|氏|殿)(?:[^\S]|$)/, label: "人名" },
+  // 組織名: 法人格を含む名称
+  { pattern: /(?:株式会社|有限会社|合同会社|一般社団法人|公益財団法人|学校法人|医療法人|社会福祉法人|NPO法人|一般財団法人)\S+|\S+(?:株式会社|有限会社|合同会社)/, label: "組織名" },
+  // 地名: 市区町村（具体的な地名パターン）
+  { pattern: /\S{2,6}[市区町村]\S{0,5}[0-9０-９丁目番地号]/, label: "地名（住所）" },
+];
+
+function detectPii(text) {
+  for (var i = 0; i < PII_REGEX_PATTERNS.length; i++) {
+    if (PII_REGEX_PATTERNS[i].pattern.test(text)) return true;
+  }
+  for (var j = 0; j < NER_PATTERNS.length; j++) {
+    if (NER_PATTERNS[j].pattern.test(text)) return true;
+  }
+  return false;
+}
+
+// ==========================================
+
 document.addEventListener("turbo:load", initChat);
 document.addEventListener("DOMContentLoaded", initChat);
 
@@ -13,6 +51,25 @@ function initChat() {
   var submit   = document.getElementById("chat-submit");
   var messages = document.getElementById("chat-messages");
   var template = document.getElementById("chat-avatar-template");
+  var piiWarning = document.getElementById("chat-pii-warning");
+
+  function showPiiWarning() {
+    if (piiWarning) piiWarning.classList.add("is-visible");
+    input.classList.add("has-pii-error");
+  }
+
+  function hidePiiWarning() {
+    if (piiWarning) piiWarning.classList.remove("is-visible");
+    input.classList.remove("has-pii-error");
+  }
+
+  input.addEventListener("input", function() {
+    if (detectPii(input.value)) {
+      showPiiWarning();
+    } else {
+      hidePiiWarning();
+    }
+  });
 
   function makeAvatarImg() {
     if (!template) return null;
@@ -48,6 +105,12 @@ function initChat() {
 
     var question = input.value.trim();
     if (!question) return;
+
+    if (detectPii(question)) {
+      showPiiWarning();
+      return;
+    }
+    hidePiiWarning();
 
     appendRow("right", question);
 

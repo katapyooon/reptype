@@ -20,6 +20,7 @@
       <% end %>
       <div class="speech-bubble speech-bubble--left">
         <p>こんにちは！<%= @result.type.name %>だよ！なんでも聞いてね！</p>
+        <p>※個人情報は入力しないでね！</p>
       </div>
     </div>
   </div>
@@ -33,6 +34,7 @@
              autocomplete="off">
       <button type="submit" id="chat-submit" class="chat-submit">送信</button>
     </div>
+    <p id="chat-pii-warning" class="chat-pii-warning">個人情報は入力しないでね！</p>
   </form>
 </section>
 
