@@ -141,6 +141,7 @@ function initChat() {
     messages.scrollTop = messages.scrollHeight;
 
     input.value = "";
+    updateCharCount();
     submit.disabled = true;
 
     try {
