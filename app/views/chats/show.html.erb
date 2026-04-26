@@ -31,10 +31,14 @@
              id="chat-question-input"
              class="chat-input"
              placeholder="<%= @result.type.name %>についての質問を入力してください..."
-             autocomplete="off">
+             autocomplete="off"
+             maxlength="400">
       <button type="submit" id="chat-submit" class="chat-submit">送信</button>
     </div>
-    <p id="chat-pii-warning" class="chat-pii-warning">個人情報は入力しないでね！</p>
+    <div class="chat-form-footer">
+      <p id="chat-pii-warning" class="chat-pii-warning">個人情報は入力しないでね！</p>
+      <span id="chat-char-count" class="chat-char-count">0 / 400</span>
+    </div>
   </form>
 </section>
 
