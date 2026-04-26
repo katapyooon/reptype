@@ -11,13 +11,9 @@ resource "aws_iam_policy" "bedrock_invoke" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = ["bedrock:InvokeModel"]
-        Resource = [
-          "arn:aws:bedrock:${data.aws_region.current.region}::foundation-model/amazon.titan-embed-text-v2:0",
-          "arn:aws:bedrock:${data.aws_region.current.region}::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0",
-          "arn:aws:bedrock:${data.aws_region.current.region}::foundation-model/anthropic.claude-3-haiku-20240307-v1:0"
-        ]
+        Effect   = "Allow"
+        Action   = ["bedrock:InvokeModel"]
+        Resource = "*"
       }
     ]
   })
