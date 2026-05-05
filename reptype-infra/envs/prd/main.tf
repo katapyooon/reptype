@@ -28,8 +28,8 @@ module "ecs" {
   task_cpu     = "256"
   task_memory  = "512"
 
-  execution_role_arn = "arn:aws:iam::441711222809:role/ecsTaskExecutionRole"
-  task_role_arn      = "arn:aws:iam::441711222809:role/ecsTaskRole"
+  execution_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/ecsTaskExecutionRole"
+  task_role_arn      = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/ecsTaskRole"
 
   container_definitions = jsonencode([
     {
@@ -47,9 +47,9 @@ module "ecs" {
         }
       ]
       secrets = [
-        { name = "DB_HOST", valueFrom = "arn:aws:ssm:ap-northeast-1:441711222809:parameter/reptype/DB_HOST" },
-        { name = "DB_PASSWORD", valueFrom = "arn:aws:ssm:ap-northeast-1:441711222809:parameter/reptype/DB_PASSWORD" },
-        { name = "RAILS_MASTER_KEY", valueFrom = "arn:aws:ssm:ap-northeast-1:441711222809:parameter/reptype/RAILS_MASTER_KEY" },
+        { name = "DB_HOST", valueFrom = "arn:aws:ssm:ap-northeast-1:${data.aws_caller_identity.current.account_id}:parameter/reptype/DB_HOST" },
+        { name = "DB_PASSWORD", valueFrom = "arn:aws:ssm:ap-northeast-1:${data.aws_caller_identity.current.account_id}:parameter/reptype/DB_PASSWORD" },
+        { name = "RAILS_MASTER_KEY", valueFrom = "arn:aws:ssm:ap-northeast-1:${data.aws_caller_identity.current.account_id}:parameter/reptype/RAILS_MASTER_KEY" },
       ]
       logConfiguration = {
         logDriver = "awslogs"
@@ -102,7 +102,7 @@ module "ecs" {
   security_group_ids = ["sg-027a10a08ba4e1490"]
   assign_public_ip = true
 
-  target_group_arn             = "arn:aws:elasticloadbalancing:ap-northeast-1:441711222809:targetgroup/reptype-target/9edb6e53970b306a"
+  target_group_arn             = "arn:aws:elasticloadbalancing:ap-northeast-1:${data.aws_caller_identity.current.account_id}:targetgroup/reptype-target/9edb6e53970b306a"
   load_balancer_container_name = "nginx"
   load_balancer_container_port = 80
 
