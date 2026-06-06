@@ -57,6 +57,9 @@ gem "rack-attack"
 # PDF text extraction for document ingestion [https://github.com/yob/pdf-reader]
 gem "pdf-reader"
 
+# PDF export via headless Chrome (Grover uses Puppeteer) [https://github.com/Studiosity/grover]
+gem "grover"
+
 # Environment variable management [https://github.com/bkeepers/dotenv]
 gem "dotenv-rails", groups: [ :development, :test ]
 
