@@ -191,7 +191,7 @@ GEM
     msgpack (1.8.0)
     neighbor (1.0.0)
       activerecord (>= 7.2)
-    net-imap (0.5.14)
+    net-imap (0.5.15)
       date
       net-protocol
     net-pop (0.1.2)
