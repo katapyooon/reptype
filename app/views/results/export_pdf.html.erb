@@ -159,7 +159,7 @@
 
       <div class="info-col">
         <p class="section-heading">基本情報</p>
-        <p class="basic-description"><%= @description %></p>
+        <p class="basic-description"><%= raw @description %></p>
       </div>
     </div>
 
@@ -168,14 +168,14 @@
         <% if @cage_size.present? %>
           <div class="care-block">
             <p class="section-heading">ケージのサイズ</p>
-            <p class="care-text"><%= @cage_size %></p>
+            <p class="care-text"><%= raw @cage_size %></p>
           </div>
         <% end %>
 
         <% if @equipment.present? %>
           <div class="care-block">
             <p class="section-heading">その他設備</p>
-            <p class="care-text"><%= @equipment %></p>
+            <p class="care-text"><%= raw @equipment %></p>
           </div>
         <% end %>
       </div>

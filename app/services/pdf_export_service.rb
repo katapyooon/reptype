@@ -5,6 +5,14 @@ class PdfExportService
   CAGE_SIZE_QUERY   = "推奨されるケージのサイズを教えてください"
   EQUIPMENT_QUERY   = "必要な暖房器具・シェルター・床材を教えてください"
 
+  # 除外する不要行のパターン
+  NOISE_PATTERNS = [
+    /参考\d+/,
+    /正確な回答をするため/,
+    /適切な参考情報/,
+    /情報の提供をお願い/
+  ].freeze
+
   def initialize(result)
     @result = result
     @type   = result.type
@@ -12,9 +20,9 @@ class PdfExportService
   end
 
   def generate_pdf
-    description = generate_description
-    cage_size   = generate_section(CAGE_SIZE_QUERY,  cage_size_prompt)
-    equipment   = generate_section(EQUIPMENT_QUERY,  equipment_prompt)
+    description = format_for_pdf(generate_description)
+    cage_size   = format_for_pdf(generate_section(CAGE_SIZE_QUERY, cage_size_prompt))
+    equipment   = format_for_pdf(generate_section(EQUIPMENT_QUERY, equipment_prompt))
     image_uri   = build_image_data_uri
 
     html = render_html(
@@ -27,6 +35,21 @@ class PdfExportService
   end
 
   private
+
+  # マークダウンをHTMLに変換し不要行を除去する
+  def format_for_pdf(text)
+    return nil if text.blank?
+
+    lines = text.lines.reject { |line| NOISE_PATTERNS.any? { |pat| line.match?(pat) } }
+
+    lines.map do |line|
+      # # 見出し → <strong>テキスト</strong>
+      line = line.gsub(/^#+\s*(.+)$/) { "<strong>#{$1.strip}</strong>" }
+      # **bold** → <strong>bold</strong>
+      line = line.gsub(/\*\*(.+?)\*\*/) { "<strong>#{$1}</strong>" }
+      line
+    end.join
+  end
 
   def generate_description
     chunks = RagSearchService.new(reptile_type_id: @type.id)
@@ -74,6 +97,9 @@ class PdfExportService
       提供された参考情報をもとに、#{@type.name}の基本情報を400字程度の自然な日本語で説明してください。
       特徴・性格・飼育のポイントを含め、初心者にも分かりやすく書いてください。
       箇条書きは使わず、読み物として自然な文章で書いてください。
+      冒頭に「#{@type.name}の基本情報」という見出しを **#{@type.name}の基本情報** の形式で必ず入れてください。
+      「参考1」「参考2」などの参考番号は回答に含めないこと。
+      情報が不足している場合の断り書きも不要です。
     PROMPT
   end
 
@@ -83,8 +109,11 @@ class PdfExportService
       提供された参考情報をもとに、#{@type.name}に必要なケージのサイズを簡潔に答えてください。
       最低サイズと推奨サイズを分けて、具体的な数値（cm）で記載してください。
       箇条書きで2項目（最低サイズ・推奨サイズのみ）にまとめてください。
-      タイトルや見出し（例：「# 〇〇の推奨ケージサイズ」）は絶対に含めないでください。
+      各項目は「• **最低サイズ**：〇〇cm」「• **推奨サイズ**：〇〇cm」の形式で記載してください。
+      タイトルや見出し行は含めないでください。
       「より理想的」「さらに広い」などの追加項目は含めないでください。
+      「参考1」「参考2」などの参考番号は回答に含めないこと。
+      情報が不足している場合の断り書きも不要です。
     PROMPT
   end
 
@@ -93,7 +122,10 @@ class PdfExportService
       あなたは爬虫類飼育の専門家です。
       提供された参考情報をもとに、#{@type.name}の飼育に必要な暖房器具・シェルター・床材を答えてください。
       カテゴリごとに箇条書きで簡潔にまとめてください。
-      各カテゴリは「暖房器具：」「シェルター：」「床材：」の形式で記載してください。
+      各カテゴリは「**暖房器具**：」「**シェルター**：」「**床材**：」の形式で記載してください。
+      タイトルや見出し行は含めないでください。
+      「参考1」「参考2」などの参考番号は回答に含めないこと。
+      情報が不足している場合の断り書きも不要です。
     PROMPT
   end
 
