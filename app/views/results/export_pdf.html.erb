@@ -17,40 +17,45 @@
 
     .page {
       width: 794px;
-      min-height: 1123px;
-      padding: 36px 40px;
+      height: 1123px;
+      padding: 24px 32px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
 
     /* ヘッダー */
     .header {
       text-align: center;
-      margin-bottom: 28px;
-      padding-bottom: 16px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
       border-bottom: 3px solid #4a7c59;
+      flex-shrink: 0;
     }
 
     .header h1 {
-      font-size: 30px;
+      font-size: 24px;
       color: #2d5a3d;
       letter-spacing: 0.05em;
     }
 
     .header .subtitle {
-      font-size: 13px;
+      font-size: 11px;
       color: #888;
-      margin-top: 4px;
+      margin-top: 2px;
     }
 
     /* 上半分：画像 + 基本情報 */
     .upper-section {
       display: flex;
-      gap: 28px;
+      gap: 20px;
       align-items: flex-start;
-      margin-bottom: 36px;
+      margin-bottom: 16px;
+      flex-shrink: 0;
     }
 
     .image-col {
-      flex: 0 0 42%;
+      flex: 0 0 38%;
       display: flex;
       justify-content: center;
       align-items: flex-start;
@@ -60,7 +65,7 @@
       width: 100%;
       aspect-ratio: 1 / 1;
       border: 2px solid #ddd;
-      border-radius: 12px;
+      border-radius: 10px;
       background: #f9f9f9;
       display: flex;
       justify-content: center;
@@ -81,27 +86,57 @@
     }
 
     .section-heading {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: bold;
       color: #2d5a3d;
       border-left: 4px solid #4a7c59;
-      padding-left: 9px;
-      margin-bottom: 14px;
+      padding-left: 8px;
+      margin-bottom: 8px;
     }
 
     .basic-description {
-      font-size: 12.5px;
-      line-height: 1.9;
+      font-size: 11.5px;
+      line-height: 1.75;
       color: #444;
     }
 
-    /* 下半分（今後実装） */
+    /* 下半分：左カラム（ケージ・設備）＋右カラム（空白） */
     .lower-section {
-      border-top: 1px dashed #ccc;
-      padding-top: 24px;
-      color: #aaa;
-      font-size: 12px;
-      text-align: center;
+      border-top: 2px solid #e0e0e0;
+      padding-top: 14px;
+      display: flex;
+      gap: 20px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .lower-left {
+      flex: 0 0 55%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .lower-right {
+      flex: 1;
+    }
+
+    .care-block {
+      background: #f7faf8;
+      border: 1px solid #c8dfd0;
+      border-radius: 8px;
+      padding: 10px 14px;
+    }
+
+    .care-block .section-heading {
+      margin-bottom: 6px;
+    }
+
+    .care-text {
+      font-size: 11px;
+      line-height: 1.7;
+      color: #444;
+      white-space: pre-wrap;
     }
   </style>
 </head>
@@ -124,12 +159,30 @@
 
       <div class="info-col">
         <p class="section-heading">基本情報</p>
-        <p class="basic-description"><%= @description %></p>
+        <p class="basic-description"><%= raw @description %></p>
       </div>
     </div>
 
     <div class="lower-section">
-      <!-- 適温・餌・ケージ・暖房器具は後で実装 -->
+      <div class="lower-left">
+        <% if @cage_size.present? %>
+          <div class="care-block">
+            <p class="section-heading">ケージのサイズ</p>
+            <p class="care-text"><%= raw @cage_size %></p>
+          </div>
+        <% end %>
+
+        <% if @equipment.present? %>
+          <div class="care-block">
+            <p class="section-heading">その他設備</p>
+            <p class="care-text"><%= raw @equipment %></p>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="lower-right">
+        <%# 右下は今後実装 %>
+      </div>
     </div>
 
   </div>
