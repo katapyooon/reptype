@@ -95,13 +95,41 @@
       color: #444;
     }
 
-    /* 下半分（今後実装） */
+    /* 下半分：左カラム（ケージ・設備）＋右カラム（空白） */
     .lower-section {
-      border-top: 1px dashed #ccc;
+      border-top: 2px solid #e0e0e0;
       padding-top: 24px;
-      color: #aaa;
+      display: flex;
+      gap: 28px;
+    }
+
+    .lower-left {
+      flex: 0 0 55%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .lower-right {
+      flex: 1;
+    }
+
+    .care-block {
+      background: #f7faf8;
+      border: 1px solid #c8dfd0;
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+
+    .care-block .section-heading {
+      margin-bottom: 10px;
+    }
+
+    .care-text {
       font-size: 12px;
-      text-align: center;
+      line-height: 1.85;
+      color: #444;
+      white-space: pre-wrap;
     }
   </style>
 </head>
@@ -129,7 +157,25 @@
     </div>
 
     <div class="lower-section">
-      <!-- 適温・餌・ケージ・暖房器具は後で実装 -->
+      <div class="lower-left">
+        <% if @cage_size.present? %>
+          <div class="care-block">
+            <p class="section-heading">ケージのサイズ</p>
+            <p class="care-text"><%= @cage_size %></p>
+          </div>
+        <% end %>
+
+        <% if @equipment.present? %>
+          <div class="care-block">
+            <p class="section-heading">その他設備</p>
+            <p class="care-text"><%= @equipment %></p>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="lower-right">
+        <%# 右下は今後実装 %>
+      </div>
     </div>
 
   </div>
