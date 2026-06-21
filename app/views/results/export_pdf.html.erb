@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Noto Sans CJK JP", "Noto Sans JP", "Hiragino Sans", sans-serif;
+      background: #ffffff;
+      color: #333;
+    }
+
+    .page {
+      width: 794px;
+      min-height: 1123px;
+      padding: 36px 40px;
+    }
+
+    /* ヘッダー */
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 3px solid #4a7c59;
+    }
+
+    .header h1 {
+      font-size: 30px;
+      color: #2d5a3d;
+      letter-spacing: 0.05em;
+    }
+
+    .header .subtitle {
+      font-size: 13px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    /* 上半分：画像 + 基本情報 */
+    .upper-section {
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+      margin-bottom: 36px;
+    }
+
+    .image-col {
+      flex: 0 0 42%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .image-frame {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .info-col {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .section-heading {
+      font-size: 15px;
+      font-weight: bold;
+      color: #2d5a3d;
+      border-left: 4px solid #4a7c59;
+      padding-left: 9px;
+      margin-bottom: 14px;
+    }
+
+    .basic-description {
+      font-size: 12.5px;
+      line-height: 1.9;
+      color: #444;
+    }
+
+    /* 下半分（今後実装） */
+    .lower-section {
+      border-top: 1px dashed #ccc;
+      padding-top: 24px;
+      color: #aaa;
+      font-size: 12px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <div class="header">
+      <h1><%= @type.name %></h1>
+      <p class="subtitle">爬虫類ケアシート</p>
+    </div>
+
+    <div class="upper-section">
+      <% if @image_uri.present? %>
+        <div class="image-col">
+          <div class="image-frame">
+            <img src="<%= @image_uri %>" alt="<%= @type.name %>">
+          </div>
+        </div>
+      <% end %>
+
+      <div class="info-col">
+        <p class="section-heading">基本情報</p>
+        <p class="basic-description"><%= @description %></p>
+      </div>
+    </div>
+
+    <div class="lower-section">
+      <!-- 適温・餌・ケージ・暖房器具は後で実装 -->
+    </div>
+
+  </div>
+</body>
+</html>

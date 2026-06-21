@@ -1,6 +1,6 @@
 class ResultsController < ApplicationController
-  before_action :set_result, only: %i[ show edit update destroy ]
-  before_action :authorize_result!, only: :show  # ④: showに認可チェックを追加
+  before_action :set_result, only: %i[ show edit update destroy export_pdf ]
+  before_action :authorize_result!, only: %i[ show export_pdf ]
 
   # GET /results or /results.json
   def index
@@ -83,6 +83,15 @@ class ResultsController < ApplicationController
       format.html { redirect_to results_path, notice: "Result was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end
+  end
+
+  # GET /results/:id/export_pdf
+  def export_pdf
+    pdf = PdfExportService.new(@result).generate_pdf
+    send_data pdf,
+      filename:    "#{@result.type.name}_care_sheet.pdf",
+      type:        "application/pdf",
+      disposition: "attachment"
   end
 
   def calculate_result
