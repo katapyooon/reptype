@@ -40,17 +40,19 @@ class PdfExportService
   private
 
   # マークダウンをHTMLに変換し不要行を除去する
+  # HTMLエスケープを先に行い、その後マークダウン記法のみを安全なタグに変換する
   def format_for_pdf(text)
     return nil if text.blank?
 
     lines = text.lines.reject { |line| NOISE_PATTERNS.any? { |pat| line.match?(pat) } }
 
     lines.map do |line|
-      # # 見出し → <strong>テキスト</strong>
-      line = line.gsub(/^#+\s*(.+)$/) { "<strong>#{$1.strip}</strong>" }
-      # **bold** → <strong>bold</strong>
-      line = line.gsub(/\*\*(.+?)\*\*/) { "<strong>#{$1}</strong>" }
-      line
+      escaped = ERB::Util.html_escape(line)
+      # # 見出し → <strong>テキスト</strong>（エスケープ済みテキストに適用）
+      escaped = escaped.gsub(/^#+\s*(.+)$/) { "<strong>#{$1.strip}</strong>" }
+      # **bold** → <strong>bold</strong>（エスケープ済みテキストに適用）
+      escaped = escaped.gsub(/\*\*(.+?)\*\*/) { "<strong>#{$1}</strong>" }
+      escaped
     end.join
   end
 
