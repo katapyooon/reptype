@@ -4,6 +4,7 @@ class PdfExportService
   DESCRIPTION_QUERY = "基本的な特徴・性格・飼育のポイントを教えてください"
   CAGE_SIZE_QUERY   = "推奨されるケージのサイズを教えてください"
   EQUIPMENT_QUERY   = "必要な暖房器具・シェルター・床材を教えてください"
+  FEEDING_QUERY     = "餌の種類と給餌頻度を教えてください"
 
   # 除外する不要行のパターン
   NOISE_PATTERNS = [
@@ -23,12 +24,14 @@ class PdfExportService
     description = format_for_pdf(generate_description)
     cage_size   = format_for_pdf(generate_section(CAGE_SIZE_QUERY, cage_size_prompt))
     equipment   = format_for_pdf(generate_section(EQUIPMENT_QUERY, equipment_prompt))
+    feeding     = format_for_pdf(generate_section(FEEDING_QUERY,   feeding_prompt))
     image_uri   = build_image_data_uri
 
     html = render_html(
       description: description,
       cage_size:   cage_size,
       equipment:   equipment,
+      feeding:     feeding,
       image_uri:   image_uri
     )
     Grover.new(html, **Grover.configuration.options).to_pdf
@@ -142,7 +145,22 @@ class PdfExportService
     "data:image/#{mime_type};base64,#{data}"
   end
 
-  def render_html(description:, cage_size:, equipment:, image_uri:)
+  def feeding_prompt
+    <<~PROMPT
+      あなたは爬虫類飼育の専門家です。
+      提供された参考情報をもとに、#{@type.name}の餌の種類と給餌頻度を簡潔に答えてください。
+      以下の形式で記載してください：
+      • **主食**：〇〇、〇〇
+      • **副食**：〇〇、〇〇（ある場合のみ）
+      • **幼体**：〇〇に1回
+      • **成体**：〇〇に1回
+      タイトルや見出し行は含めないでください。
+      「参考1」「参考2」などの参考番号は回答に含めないこと。
+      情報が不足している場合の断り書きも不要です。
+    PROMPT
+  end
+
+  def render_html(description:, cage_size:, equipment:, feeding:, image_uri:)
     ApplicationController.render(
       template: "results/export_pdf",
       assigns:  {
@@ -150,6 +168,7 @@ class PdfExportService
         description: description,
         cage_size:   cage_size,
         equipment:   equipment,
+        feeding:     feeding,
         image_uri:   image_uri
       },
       layout: false
