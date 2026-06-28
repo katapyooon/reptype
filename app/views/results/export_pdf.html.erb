@@ -181,7 +181,12 @@
       </div>
 
       <div class="lower-right">
-        <%# 右下は今後実装 %>
+        <% if @feeding.present? %>
+          <div class="care-block">
+            <p class="section-heading">餌の種類と給餌頻度</p>
+            <p class="care-text"><%= raw @feeding %></p>
+          </div>
+        <% end %>
       </div>
     </div>
 
