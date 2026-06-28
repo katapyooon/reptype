@@ -135,14 +135,24 @@ class PdfExportService
     PROMPT
   end
 
+  ALLOWED_IMAGE_EXTENSIONS = %w[jpg jpeg png gif webp].freeze
+
   def build_image_data_uri
     return nil unless @type.image_path.present?
 
-    file_path = Rails.root.join("app/assets/images", @type.image_path)
+    # パス区切り文字を含まないファイル名のみ許可し、許可拡張子かチェック
+    basename = File.basename(@type.image_path)
+    ext      = File.extname(basename).delete(".").downcase
+    return nil unless basename.match?(/\A[\w\-]+\.\w+\z/) && ALLOWED_IMAGE_EXTENSIONS.include?(ext)
+
+    images_dir = Rails.root.join("app/assets/images")
+    file_path  = images_dir.join(basename)
+
+    # realpath でシンボリックリンク等を解決し、images_dir 配下であることを保証
     return nil unless File.exist?(file_path)
+    return nil unless file_path.realpath.to_s.start_with?(images_dir.realpath.to_s + "/")
 
     data      = Base64.strict_encode64(File.binread(file_path))
-    ext       = File.extname(@type.image_path).delete(".").downcase
     mime_type = ext == "jpg" ? "jpeg" : ext
     "data:image/#{mime_type};base64,#{data}"
   end
