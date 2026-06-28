@@ -146,7 +146,7 @@ class PdfExportService
     return nil unless basename.match?(/\A[\w\-]+\.\w+\z/) && ALLOWED_IMAGE_EXTENSIONS.include?(ext)
 
     images_dir = Rails.root.join("app/assets/images")
-    file_path  = images_dir.join(basename)
+    file_path  = images_dir.join(@type.image_path)
 
     # realpath でシンボリックリンク等を解決し、images_dir 配下であることを保証
     return nil unless File.exist?(file_path)
