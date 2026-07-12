@@ -5,6 +5,7 @@ class PdfExportService
   CAGE_SIZE_QUERY   = "推奨されるケージのサイズを教えてください"
   EQUIPMENT_QUERY   = "必要な暖房器具・シェルター・床材を教えてください"
   FEEDING_QUERY     = "餌の種類と給餌頻度を教えてください"
+  TEMPERATURE_QUERY = "適切な温度と湿度の管理方法を教えてください"
 
   # 除外する不要行のパターン
   NOISE_PATTERNS = [
@@ -24,7 +25,8 @@ class PdfExportService
     description = format_for_pdf(generate_description)
     cage_size   = format_for_pdf(generate_section(CAGE_SIZE_QUERY, cage_size_prompt))
     equipment   = format_for_pdf(generate_section(EQUIPMENT_QUERY, equipment_prompt))
-    feeding     = format_for_pdf(generate_section(FEEDING_QUERY,   feeding_prompt))
+    feeding     = format_for_pdf(generate_section(FEEDING_QUERY,     feeding_prompt))
+    temperature = format_for_pdf(generate_section(TEMPERATURE_QUERY, temperature_prompt))
     image_uri   = build_image_data_uri
 
     html = render_html(
@@ -32,6 +34,7 @@ class PdfExportService
       cage_size:   cage_size,
       equipment:   equipment,
       feeding:     feeding,
+      temperature: temperature,
       image_uri:   image_uri
     )
     Grover.new(html, **Grover.configuration.options).to_pdf
@@ -172,7 +175,22 @@ class PdfExportService
     PROMPT
   end
 
-  def render_html(description:, cage_size:, equipment:, feeding:, image_uri:)
+  def temperature_prompt
+    <<~PROMPT
+      あなたは爬虫類飼育の専門家です。
+      提供された参考情報をもとに、#{@type.name}の適切な温度と湿度を簡潔に答えてください。
+      以下の形式で記載してください：
+      • **バスキング**：〇〇℃
+      • **ケージ全体**：〇〇〜〇〇℃
+      • **夜間**：〇〇℃以上
+      • **湿度**：〇〇〜〇〇%
+      タイトルや見出し行は含めないでください。
+      「参考1」「参考2」などの参考番号は回答に含めないこと。
+      情報が不足している場合の断り書きも不要です。
+    PROMPT
+  end
+
+  def render_html(description:, cage_size:, equipment:, feeding:, temperature:, image_uri:)
     ApplicationController.render(
       template: "results/export_pdf",
       assigns:  {
@@ -181,6 +199,7 @@ class PdfExportService
         cage_size:   cage_size,
         equipment:   equipment,
         feeding:     feeding,
+        temperature: temperature,
         image_uri:   image_uri
       },
       layout: false
