@@ -187,6 +187,13 @@
             <p class="care-text"><%= raw @feeding %></p>
           </div>
         <% end %>
+
+        <% if @temperature.present? %>
+          <div class="care-block" style="margin-top: 12px;">
+            <p class="section-heading">適温・湿度</p>
+            <p class="care-text"><%= raw @temperature %></p>
+          </div>
+        <% end %>
       </div>
     </div>
 
