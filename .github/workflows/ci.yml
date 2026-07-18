@@ -29,6 +29,43 @@ jobs:
           name: brakeman-report
           path: brakeman.json
 
+  scan_gems:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Scan Gemfile.lock for known gem vulnerabilities
+        run: |
+          bundle exec bundler-audit check --update --format json -o bundler-audit.json || true
+
+          # Fail only when an advisory is medium criticality or higher (CVSS-based).
+          jq -e '
+            [ .results[].advisory.criticality
+              | if . == "critical" then 4
+                elif . == "high" then 3
+                elif . == "medium" then 2
+                elif . == "low" then 1
+                elif . == "none" then 0
+                else 0
+                end
+            ] | any(. >= 2) | not
+          ' bundler-audit.json
+
+      - name: Upload bundler-audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundler-audit-report
+          path: bundler-audit.json
+
   scan_js:
     runs-on: ubuntu-latest
 
