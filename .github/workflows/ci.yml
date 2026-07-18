@@ -44,7 +44,7 @@ jobs:
 
       - name: Scan Gemfile.lock for known gem vulnerabilities
         run: |
-          bundle exec bundler-audit check --update -f json -o bundler-audit.json || true
+          bundle exec bundler-audit check --update --format json -o bundler-audit.json || true
 
           # Fail only when an advisory is medium criticality or higher (CVSS-based).
           jq -e '
