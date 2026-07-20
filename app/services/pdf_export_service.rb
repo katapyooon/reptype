@@ -22,21 +22,19 @@ class PdfExportService
   end
 
   def generate_pdf
-    description = format_for_pdf(generate_description)
-    cage_size   = format_for_pdf(generate_section(CAGE_SIZE_QUERY, cage_size_prompt))
-    equipment   = format_for_pdf(generate_section(EQUIPMENT_QUERY, equipment_prompt))
-    feeding     = format_for_pdf(generate_section(FEEDING_QUERY,     feeding_prompt))
-    temperature = format_for_pdf(generate_section(TEMPERATURE_QUERY, temperature_prompt))
-    image_uri   = build_image_data_uri
+    # Bedrock 呼び出し（5回）を並列実行して合計待ち時間を1回分に短縮
+    futures = {
+      description: Concurrent::Future.execute { generate_description },
+      cage_size:   Concurrent::Future.execute { generate_section(CAGE_SIZE_QUERY,   cage_size_prompt) },
+      equipment:   Concurrent::Future.execute { generate_section(EQUIPMENT_QUERY,   equipment_prompt) },
+      feeding:     Concurrent::Future.execute { generate_section(FEEDING_QUERY,     feeding_prompt) },
+      temperature: Concurrent::Future.execute { generate_section(TEMPERATURE_QUERY, temperature_prompt) }
+    }
 
-    html = render_html(
-      description: description,
-      cage_size:   cage_size,
-      equipment:   equipment,
-      feeding:     feeding,
-      temperature: temperature,
-      image_uri:   image_uri
-    )
+    sections  = futures.transform_values { |f| format_for_pdf(f.value!) }
+    image_uri = build_image_data_uri
+
+    html = render_html(**sections, image_uri: image_uri)
     Grover.new(html, **Grover.configuration.options).to_pdf
   end
 
