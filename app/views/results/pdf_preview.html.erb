@@ -1,0 +1,155 @@
+<% content_for :title, "#{@type.name} ケアシートプレビュー" %>
+
+<div class="pdf-preview-container">
+  <div class="pdf-preview-toolbar">
+    <span class="pdf-preview-title"><%= @type.name %> ケアシート</span>
+    <%= link_to "PDFダウンロード", export_pdf_result_path(@result),
+          class: "btn btn-primary pdf-download-btn" %>
+  </div>
+
+  <div class="pdf-preview-body">
+    <div class="preview-section">
+      <div class="preview-upper">
+        <% if @type.image_path.present? %>
+          <div class="preview-image-col">
+            <%= image_tag @type.image_path, alt: @type.name, class: "preview-reptile-image" %>
+          </div>
+        <% end %>
+        <div class="preview-info-col">
+          <h2 class="preview-section-heading">基本情報</h2>
+          <p class="preview-text"><%= raw @sections[:description] %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="preview-lower">
+      <div class="preview-lower-left">
+        <% if @sections[:cage_size].present? %>
+          <div class="preview-card">
+            <h2 class="preview-section-heading">ケージのサイズ</h2>
+            <p class="preview-text"><%= raw @sections[:cage_size] %></p>
+          </div>
+        <% end %>
+        <% if @sections[:equipment].present? %>
+          <div class="preview-card">
+            <h2 class="preview-section-heading">その他設備</h2>
+            <p class="preview-text"><%= raw @sections[:equipment] %></p>
+          </div>
+        <% end %>
+      </div>
+      <div class="preview-lower-right">
+        <% if @sections[:feeding].present? %>
+          <div class="preview-card">
+            <h2 class="preview-section-heading">餌の種類と給餌頻度</h2>
+            <p class="preview-text"><%= raw @sections[:feeding] %></p>
+          </div>
+        <% end %>
+        <% if @sections[:temperature].present? %>
+          <div class="preview-card">
+            <h2 class="preview-section-heading">適温・湿度</h2>
+            <p class="preview-text"><%= raw @sections[:temperature] %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .pdf-preview-container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 1rem 3rem;
+  }
+
+  .pdf-preview-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .pdf-preview-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #2d5a3d;
+  }
+
+  .pdf-download-btn {
+    font-size: 0.9rem;
+  }
+
+  .preview-upper {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #e0e0e0;
+  }
+
+  .preview-image-col {
+    flex: 0 0 38%;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background: #f9f9f9;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .preview-reptile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .preview-info-col {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .preview-lower {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .preview-lower-left,
+  .preview-lower-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .preview-section-heading {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #2d5a3d;
+    border-left: 4px solid #4a7c59;
+    padding-left: 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .preview-card {
+    background: #f7faf8;
+    border: 1px solid #c8dfd0;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+  }
+
+  .preview-text {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: #444;
+    white-space: pre-wrap;
+  }
+</style>

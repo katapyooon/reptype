@@ -21,8 +21,8 @@ class PdfExportService
     @client = Aws::BedrockRuntime::Client.new
   end
 
-  def generate_pdf
-    # Bedrock 呼び出し（5回）を並列実行して合計待ち時間を1回分に短縮
+  # プレビュー画面・PDF生成で共通利用するセクションデータを返す
+  def generate_sections
     futures = {
       description: Concurrent::Future.execute { generate_description },
       cage_size:   Concurrent::Future.execute { generate_section(CAGE_SIZE_QUERY,   cage_size_prompt) },
@@ -30,11 +30,13 @@ class PdfExportService
       feeding:     Concurrent::Future.execute { generate_section(FEEDING_QUERY,     feeding_prompt) },
       temperature: Concurrent::Future.execute { generate_section(TEMPERATURE_QUERY, temperature_prompt) }
     }
+    futures.transform_values { |f| format_for_pdf(f.value!) }
+  end
 
-    sections  = futures.transform_values { |f| format_for_pdf(f.value!) }
+  def generate_pdf
+    sections  = generate_sections
     image_uri = build_image_data_uri
-
-    html = render_html(**sections, image_uri: image_uri)
+    html      = render_html(**sections, image_uri: image_uri)
     Grover.new(html, **Grover.configuration.options).to_pdf
   end
 
