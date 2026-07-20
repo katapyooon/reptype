@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :results, only: [ :index, :show, :create, :edit, :update, :destroy ] do
     member do
       get :export_pdf
+      get :pdf_preview
     end
     resource :chat, only: [ :show, :create ]
   end

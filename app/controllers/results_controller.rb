@@ -1,6 +1,6 @@
 class ResultsController < ApplicationController
-  before_action :set_result, only: %i[ show edit update destroy export_pdf ]
-  before_action :authorize_result!, only: %i[ show export_pdf ]
+  before_action :set_result, only: %i[ show edit update destroy export_pdf pdf_preview ]
+  before_action :authorize_result!, only: %i[ show export_pdf pdf_preview ]
 
   # GET /results or /results.json
   def index
@@ -83,6 +83,13 @@ class ResultsController < ApplicationController
       format.html { redirect_to results_path, notice: "Result was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end
+  end
+
+  # GET /results/:id/pdf_preview
+  def pdf_preview
+    service   = PdfExportService.new(@result)
+    @sections = service.generate_sections
+    @type     = @result.type
   end
 
   # GET /results/:id/export_pdf
