@@ -56,23 +56,27 @@ reptype にはもともと、S3に保存した爬虫類ドキュメントを Bed
 
 ```mermaid
 flowchart TD
-    A[診断結果 Result] --> B[PdfExportService#generate_sections]
-    B --> C1[RagSearchService\n基本情報クエリ]
-    B --> C2[RagSearchService\nケージサイズクエリ]
-    B --> C3[RagSearchService\n設備クエリ]
-    B --> C4[RagSearchService\n餌クエリ]
-    B --> C5[RagSearchService\n温湿度クエリ]
-    C1 --> D1[Bedrock InvokeModel\nClaude Haiku]
-    C2 --> D2[Bedrock InvokeModel\nClaude Haiku]
-    C3 --> D3[Bedrock InvokeModel\nClaude Haiku]
-    C4 --> D4[Bedrock InvokeModel\nClaude Haiku]
-    C5 --> D5[Bedrock InvokeModel\nClaude Haiku]
-    D1 & D2 & D3 & D4 & D5 --> E[format_for_pdf\nMarkdown→HTML整形 / ノイズ除去]
+    A[診断結果 Result] --> B["PdfExportService#generate_sections"]
+    B --> C1["RagSearchService<br/>基本情報クエリ"]
+    B --> C2["RagSearchService<br/>ケージサイズクエリ"]
+    B --> C3["RagSearchService<br/>設備クエリ"]
+    B --> C4["RagSearchService<br/>餌クエリ"]
+    B --> C5["RagSearchService<br/>温湿度クエリ"]
+    C1 --> D1["Bedrock InvokeModel<br/>Claude Haiku"]
+    C2 --> D2["Bedrock InvokeModel<br/>Claude Haiku"]
+    C3 --> D3["Bedrock InvokeModel<br/>Claude Haiku"]
+    C4 --> D4["Bedrock InvokeModel<br/>Claude Haiku"]
+    C5 --> D5["Bedrock InvokeModel<br/>Claude Haiku"]
+    D1 --> E["format_for_pdf<br/>Markdown→HTML整形 / ノイズ除去"]
+    D2 --> E
+    D3 --> E
+    D4 --> E
+    D5 --> E
     E --> F{用途}
-    F -->|プレビュー画面| G[pdf_preview.html.erb]
-    F -->|PDFダウンロード| H[export_pdf.html.erb]
-    H --> I[Grover\nHeadless Chrome]
-    I --> J[PDFファイル]
+    F -->|プレビュー画面| G["pdf_preview.html.erb"]
+    F -->|PDFダウンロード| H["export_pdf.html.erb"]
+    H --> I["Grover<br/>Headless Chrome"]
+    I --> J["PDFファイル"]
 ```
 
 セクション生成部分（`generate_sections`）は、プレビュー画面とPDF生成の両方から共通で呼ばれる作りになっています。
