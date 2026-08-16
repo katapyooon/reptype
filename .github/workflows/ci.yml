@@ -82,6 +82,41 @@ jobs:
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
 
+  scan_npm:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Scan npm dependencies for known vulnerabilities
+        run: |
+          npm audit --json > npm-audit.json || true
+
+          # Fail only when a vulnerability is moderate severity or higher.
+          jq -e '
+            [ .metadata.vulnerabilities.critical,
+              .metadata.vulnerabilities.high,
+              .metadata.vulnerabilities.moderate
+            ] | any(. > 0) | not
+          ' npm-audit.json
+
+      - name: Upload npm audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-report
+          path: npm-audit.json
+
   lint:
     runs-on: ubuntu-latest
     steps:
