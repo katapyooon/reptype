@@ -28,7 +28,7 @@ ENV RAILS_ENV="production" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development" \
     GROVER_EXECUTABLE_PATH="/usr/bin/chromium" \
-    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true"
+    PUPPETEER_SKIP_DOWNLOAD="true"
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -46,7 +46,7 @@ RUN bundle install && \
 
 # Install Node.js packages (puppeteer for Grover PDF export)
 COPY package.json package-lock.json ./
-RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci --omit=dev
+RUN PUPPETEER_SKIP_DOWNLOAD=true npm ci --omit=dev
 
 # Copy application code
 COPY . .
