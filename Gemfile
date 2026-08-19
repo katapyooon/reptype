@@ -23,6 +23,9 @@ gem "jbuilder"
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
+# Pin mail (ActionMailer dependency) to patch GHSA-mvxr-6m87-mv2q (address spoofing via malformed RFC 2047 encoded-words)
+gem "mail", ">= 2.9.1"
+
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
 gem "solid_cache"
 gem "solid_queue"
