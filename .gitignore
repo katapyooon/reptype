@@ -84,3 +84,16 @@ yarn-debug.log*
 **/override.tf.json
 **/*_override.tf
 **/*_override.tf.json
+
+
+# Go (reptype-catalog-api)
+/reptype-catalog-api/reptype-catalog-api
+/reptype-catalog-api/*.exe
+/reptype-catalog-api/*.test
+/reptype-catalog-api/*.out
+/reptype-catalog-api/tmp/
+
+# OS / Editor
+.DS_Store
+.idea/
+.vscode/
