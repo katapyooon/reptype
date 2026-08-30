@@ -1,0 +1,1 @@
+DROP TABLE gene_combination_risks;
