@@ -9,6 +9,7 @@ import (
 	"github.com/joho/godotenv"
 
 	"reptype-catalog-api/db"
+	"reptype-catalog-api/handler"
 )
 
 func main() {
@@ -32,6 +33,8 @@ func main() {
 		}
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})
+
+	r.GET("/api/v1/morphs", handler.ListMorphs(pool))
 
 	if err := r.Run(":8080"); err != nil { // localhost:8080
 		log.Fatalf("failed to start server: %v", err)
