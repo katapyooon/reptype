@@ -1,0 +1,6 @@
+.env
+.env.*
+.git
+tmp/
+*.md
+db/migrations
