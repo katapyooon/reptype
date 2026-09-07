@@ -196,6 +196,17 @@ jobs:
       run:
         working-directory: reptype-catalog-api
 
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: reptype_catalog_test
+        ports:
+          - 5432:5432
+        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
       - uses: actions/checkout@v7
 
@@ -208,6 +219,16 @@ jobs:
         uses: golangci/golangci-lint-action@v9
         with:
           working-directory: reptype-catalog-api
+
+      - name: Run tests
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          DB_NAME: reptype_catalog_test
+          DB_SSLMODE: disable
+        run: go test -p 1 ./...
 
       - name: Run Gosec Security Scanner
         uses: securego/gosec@master
