@@ -35,6 +35,7 @@ func main() {
 	})
 
 	r.GET("/api/v1/morphs", handler.ListMorphs(pool))
+	r.GET("/api/v1/morphs/:code", handler.GetMorphDetail(pool))
 
 	if err := r.Run(":8080"); err != nil { // localhost:8080
 		log.Fatalf("failed to start server: %v", err)
