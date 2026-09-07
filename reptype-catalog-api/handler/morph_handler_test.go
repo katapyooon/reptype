@@ -62,7 +62,11 @@ func TestListMorphsHandler(t *testing.T) {
 		Morphs []model.Morph `json:"morphs"`
 	}
 	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &body))
-	assert.Len(t, body.Morphs, 2)
+	require.Len(t, body.Morphs, 2)
+	assert.Equal(t, "enigma", body.Morphs[0].Code)
+	assert.Equal(t, "Enigma", body.Morphs[0].Name)
+	assert.Equal(t, "tangerine", body.Morphs[1].Code)
+	assert.Equal(t, "Tangerine", body.Morphs[1].Name)
 }
 
 func TestGetMorphDetailHandler_Found(t *testing.T) {
@@ -77,8 +81,19 @@ func TestGetMorphDetailHandler_Found(t *testing.T) {
 	var detail model.MorphDetail
 	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &detail))
 	assert.Equal(t, "enigma", detail.Code)
-	assert.Len(t, detail.Genes, 1)
-	assert.Len(t, detail.CombinationRisks, 1)
+
+	require.Len(t, detail.Genes, 1)
+	gene := detail.Genes[0]
+	assert.Equal(t, "enigma", gene.Code)
+	assert.Equal(t, "dominant", gene.InheritanceType)
+	require.NotNil(t, gene.RiskCategory)
+	assert.Equal(t, "neurological", *gene.RiskCategory)
+
+	require.Len(t, detail.CombinationRisks, 1)
+	risk := detail.CombinationRisks[0]
+	assert.ElementsMatch(t, []string{"enigma", "enigma"}, risk.GeneCodes)
+	assert.Equal(t, "lethal", risk.RiskCategory)
+	assert.Equal(t, "avoid", risk.Severity)
 }
 
 func TestGetMorphDetailHandler_NotFound(t *testing.T) {
