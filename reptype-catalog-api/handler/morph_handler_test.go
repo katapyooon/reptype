@@ -49,10 +49,26 @@ func setupRouter() *gin.Engine {
 	return r
 }
 
-func TestListMorphsHandler(t *testing.T) {
+func TestListMorphsHandler_AllSpecies(t *testing.T) {
 	r := setupRouter()
 	w := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodGet, "/api/v1/morphs", nil)
+
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+
+	var body struct {
+		Morphs []model.Morph `json:"morphs"`
+	}
+	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &body))
+	require.Len(t, body.Morphs, 3)
+}
+
+func TestListMorphsHandler_FilteredBySpecies(t *testing.T) {
+	r := setupRouter()
+	w := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/morphs?species=leopard_gecko", nil)
 
 	r.ServeHTTP(w, req)
 
@@ -94,6 +110,20 @@ func TestGetMorphDetailHandler_Found(t *testing.T) {
 	assert.ElementsMatch(t, []string{"enigma", "enigma"}, risk.GeneCodes)
 	assert.Equal(t, "lethal", risk.RiskCategory)
 	assert.Equal(t, "avoid", risk.Severity)
+}
+
+func TestGetMorphDetailHandler_ScopedBySpecies(t *testing.T) {
+	r := setupRouter()
+	w := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/morphs/tangerine?species=ball_python", nil)
+
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+
+	var detail model.MorphDetail
+	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &detail))
+	assert.Equal(t, "Ball Python Tangerine", detail.Name)
 }
 
 func TestGetMorphDetailHandler_NotFound(t *testing.T) {

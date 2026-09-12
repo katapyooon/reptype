@@ -12,7 +12,9 @@ import (
 
 func ListMorphs(pool *pgxpool.Pool) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		morphs, err := repository.ListMorphs(c.Request.Context(), pool)
+		speciesCode := c.Query("species")
+
+		morphs, err := repository.ListMorphs(c.Request.Context(), pool, speciesCode)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to fetch morphs"})
 			return
@@ -25,8 +27,9 @@ func ListMorphs(pool *pgxpool.Pool) gin.HandlerFunc {
 func GetMorphDetail(pool *pgxpool.Pool) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		code := c.Param("code")
+		speciesCode := c.Query("species")
 
-		detail, err := repository.GetMorphDetail(c.Request.Context(), pool, code)
+		detail, err := repository.GetMorphDetail(c.Request.Context(), pool, speciesCode, code)
 		if err != nil {
 			if errors.Is(err, repository.ErrMorphNotFound) {
 				c.JSON(http.StatusNotFound, gin.H{"error": "morph not found"})
