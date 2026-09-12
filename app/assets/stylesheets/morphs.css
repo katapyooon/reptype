@@ -32,20 +32,6 @@
   margin: 0 0 6px;
 }
 
-.risk-badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  margin: 2px 4px 2px 0;
-}
-
-.risk-badge.lethal { background: #fde2e2; color: #a10000; }
-.risk-badge.neurological { background: #fff2cc; color: #7a5b00; }
-.risk-badge.tumor { background: #f0e2fd; color: #5b1aa1; }
-
-.risk-severity-avoid { font-weight: bold; }
-
 @media (max-width: 600px) {
   .morphs-wrapper { padding: 12px; margin: 12px; }
 }

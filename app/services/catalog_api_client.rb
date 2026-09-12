@@ -8,20 +8,21 @@ class CatalogApiClient
   READ_TIMEOUT = 2
 
   class << self
-    def list_morphs
-      get("/api/v1/morphs")["morphs"]
+    def list_morphs(species: nil)
+      get("/api/v1/morphs", species: species)["morphs"]
     end
 
-    def find_morph(code)
-      get("/api/v1/morphs/#{ERB::Util.url_encode(code)}")
+    def find_morph(code, species: nil)
+      get("/api/v1/morphs/#{ERB::Util.url_encode(code)}", species: species)
     rescue NotFound
       nil
     end
 
     private
 
-    def get(path)
+    def get(path, species: nil)
       uri = URI.join(BASE_URL, path)
+      uri.query = URI.encode_www_form(species: species) if species.present?
 
       response = Net::HTTP.start(uri.host, uri.port,
                                   use_ssl: uri.scheme == "https",
@@ -34,9 +35,9 @@ class CatalogApiClient
       when Net::HTTPSuccess
         JSON.parse(response.body)
       when Net::HTTPNotFound
-        raise NotFound, "#{path} not found"
+        raise NotFound, "#{uri} not found"
       else
-        raise Error, "unexpected response #{response.code} from #{path}"
+        raise Error, "unexpected response #{response.code} from #{uri}"
       end
     rescue Errno::ECONNREFUSED, Net::OpenTimeout, Net::ReadTimeout, SocketError => e
       raise Error, "failed to reach catalog API: #{e.message}"
