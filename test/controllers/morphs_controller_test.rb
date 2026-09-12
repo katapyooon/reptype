@@ -14,6 +14,14 @@ class MorphsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
   end
 
+  test "index redirects to root when the catalog feature flag is disabled" do
+    with_catalog_disabled do
+      get result_morphs_url(@leopard_result)
+    end
+
+    assert_redirected_to root_url
+  end
+
   test "should get index for a species with catalog data" do
     morphs = [ { "code" => "enigma", "name" => "Enigma", "description" => "desc" } ]
 
@@ -93,5 +101,13 @@ class MorphsControllerTest < ActionDispatch::IntegrationTest
   # persist. Bypass the check itself for tests that aren't exercising authorization.
   def as_authorized(_result, &block)
     stub_instance_method(MorphsController, :authorize_result!, -> { }, &block)
+  end
+
+  def with_catalog_disabled
+    original = Rails.application.config.x.morphs_catalog_enabled
+    Rails.application.config.x.morphs_catalog_enabled = false
+    yield
+  ensure
+    Rails.application.config.x.morphs_catalog_enabled = original
   end
 end

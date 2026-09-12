@@ -1,4 +1,5 @@
 class MorphsController < ApplicationController
+  before_action :ensure_catalog_enabled!
   before_action :set_result
   before_action :authorize_result!
 
@@ -26,6 +27,12 @@ class MorphsController < ApplicationController
   end
 
   private
+
+  # 本番ではローカル検証が終わるまで機能自体を非表示にするためのfeature flag。
+  # URL直打ちでのアクセスも防ぐ(表示側は results/show.html.erb 側で制御)。
+  def ensure_catalog_enabled!
+    redirect_to root_path, alert: "モルフ図鑑は準備中です。" unless helpers.morphs_catalog_enabled?
+  end
 
   def set_result
     @result = Result.find(params[:result_id])

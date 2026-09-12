@@ -50,4 +50,7 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # モルフ図鑑機能のfeature flag。テストでは既存の挙動を検証できるようデフォルトで有効。
+  config.x.morphs_catalog_enabled = ENV.fetch("MORPHS_CATALOG_ENABLED", "true") == "true"
 end
