@@ -35,19 +35,34 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
-func TestListMorphs(t *testing.T) {
-	morphs, err := repository.ListMorphs(context.Background(), testPool)
+func TestListMorphs_AllSpecies(t *testing.T) {
+	morphs, err := repository.ListMorphs(context.Background(), testPool, "")
 	require.NoError(t, err)
-	require.Len(t, morphs, 2)
+	require.Len(t, morphs, 3)
 
 	assert.Equal(t, "enigma", morphs[0].Code)
 	assert.Equal(t, "Enigma", morphs[0].Name)
 	assert.Equal(t, "tangerine", morphs[1].Code)
 	assert.Equal(t, "Tangerine", morphs[1].Name)
+	assert.Equal(t, "Ball Python Tangerine", morphs[2].Name)
+}
+
+func TestListMorphs_FilteredBySpecies(t *testing.T) {
+	morphs, err := repository.ListMorphs(context.Background(), testPool, "leopard_gecko")
+	require.NoError(t, err)
+	require.Len(t, morphs, 2)
+	assert.Equal(t, "enigma", morphs[0].Code)
+	assert.Equal(t, "tangerine", morphs[1].Code)
+	assert.Equal(t, "Tangerine", morphs[1].Name)
+
+	ballPythonMorphs, err := repository.ListMorphs(context.Background(), testPool, "ball_python")
+	require.NoError(t, err)
+	require.Len(t, ballPythonMorphs, 1)
+	assert.Equal(t, "Ball Python Tangerine", ballPythonMorphs[0].Name)
 }
 
 func TestGetMorphDetail_WithGeneAndCombinationRisk(t *testing.T) {
-	detail, err := repository.GetMorphDetail(context.Background(), testPool, "enigma")
+	detail, err := repository.GetMorphDetail(context.Background(), testPool, "", "enigma")
 	require.NoError(t, err)
 
 	assert.Equal(t, "enigma", detail.Code)
@@ -68,15 +83,29 @@ func TestGetMorphDetail_WithGeneAndCombinationRisk(t *testing.T) {
 }
 
 func TestGetMorphDetail_WithoutGenes(t *testing.T) {
-	detail, err := repository.GetMorphDetail(context.Background(), testPool, "tangerine")
+	detail, err := repository.GetMorphDetail(context.Background(), testPool, "", "tangerine")
 	require.NoError(t, err)
 
 	assert.Equal(t, "tangerine", detail.Code)
+	assert.Equal(t, "Tangerine", detail.Name)
 	assert.Empty(t, detail.Genes)
 	assert.Empty(t, detail.CombinationRisks)
 }
 
+func TestGetMorphDetail_ScopedBySpecies(t *testing.T) {
+	leopardTangerine, err := repository.GetMorphDetail(context.Background(), testPool, "leopard_gecko", "tangerine")
+	require.NoError(t, err)
+	assert.Equal(t, "Tangerine", leopardTangerine.Name)
+
+	ballPythonTangerine, err := repository.GetMorphDetail(context.Background(), testPool, "ball_python", "tangerine")
+	require.NoError(t, err)
+	assert.Equal(t, "Ball Python Tangerine", ballPythonTangerine.Name)
+
+	_, err = repository.GetMorphDetail(context.Background(), testPool, "leopard_gecko", "does_not_exist")
+	assert.ErrorIs(t, err, repository.ErrMorphNotFound)
+}
+
 func TestGetMorphDetail_NotFound(t *testing.T) {
-	_, err := repository.GetMorphDetail(context.Background(), testPool, "does_not_exist")
+	_, err := repository.GetMorphDetail(context.Background(), testPool, "", "does_not_exist")
 	assert.ErrorIs(t, err, repository.ErrMorphNotFound)
 }

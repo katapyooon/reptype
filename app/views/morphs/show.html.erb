@@ -1,0 +1,8 @@
+<% content_for :title, @morph["name"] %>
+
+<div class="morphs-wrapper">
+  <p><%= link_to "← モルフ図鑑に戻る", result_morphs_path(@result) %></p>
+
+  <h1><%= @morph["name"] %></h1>
+  <p><%= @morph["description"] %></p>
+</div>

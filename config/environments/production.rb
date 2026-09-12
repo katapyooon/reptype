@@ -79,6 +79,10 @@ Rails.application.configure do
   # Only use :id for inspections in production.
   config.active_record.attributes_for_inspect = [ :id ]
 
+  # モルフ図鑑機能のfeature flag。ローカル検証が終わるまで本番では非表示にするため、
+  # 明示的に ENV["MORPHS_CATALOG_ENABLED"]="true" を設定しない限り無効。
+  config.x.morphs_catalog_enabled = ENV.fetch("MORPHS_CATALOG_ENABLED", "false") == "true"
+
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
   #   "example.com",     # Allow requests from example.com
