@@ -18,11 +18,10 @@ Rails.application.routes.draw do
       get :pdf_preview
     end
     resource :chat, only: [ :show, :create ]
+    resources :morphs, only: [ :index, :show ], param: :code
   end
 
   resources :types
-
-  resources :morphs, only: [ :index, :show ], param: :code
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

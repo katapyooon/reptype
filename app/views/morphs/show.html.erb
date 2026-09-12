@@ -1,52 +1,8 @@
 <% content_for :title, @morph["name"] %>
 
 <div class="morphs-wrapper">
-  <p><%= link_to "← モルフ図鑑に戻る", morphs_path %></p>
+  <p><%= link_to "← モルフ図鑑に戻る", result_morphs_path(@result) %></p>
 
   <h1><%= @morph["name"] %></h1>
   <p><%= @morph["description"] %></p>
-
-  <% if @morph["genes"].present? %>
-    <h2>遺伝子情報</h2>
-    <% @morph["genes"].each do |gene| %>
-      <div style="margin-bottom: 12px;">
-        <p>
-          <strong><%= gene["name"] %></strong>
-          (<%= { "recessive" => "劣性", "dominant" => "優性", "incomplete_dominant" => "不完全優性" }[gene["inheritance_type"]] || gene["inheritance_type"] %>)
-        </p>
-        <% if gene["risk_category"].present? %>
-          <span class="risk-badge <%= gene["risk_category"] %>">
-            <%= { "lethal" => "致死", "neurological" => "神経異常", "tumor" => "腫瘍" }[gene["risk_category"]] || gene["risk_category"] %>リスク
-          </span>
-          <p><%= gene["risk_note"] %></p>
-          <% if gene["source_note"].present? %>
-            <p style="font-size: 0.85rem; color: #666;">出典: <%= gene["source_note"] %></p>
-          <% end %>
-        <% end %>
-      </div>
-    <% end %>
-  <% else %>
-    <p>このモルフは単一の遺伝子で説明できない、複数遺伝子(ポリジーン)によるラインブリード形質です。</p>
-  <% end %>
-
-  <% if @morph["combination_risks"].present? %>
-    <h2>組み合わせによるリスク</h2>
-    <% @morph["combination_risks"].each do |risk| %>
-      <div style="margin-bottom: 12px;">
-        <p>
-          <%= risk["gene_codes"].join(" × ") %>:
-          <span class="risk-badge <%= risk["risk_category"] %>">
-            <%= { "lethal" => "致死", "neurological" => "神経異常", "tumor" => "腫瘍" }[risk["risk_category"]] || risk["risk_category"] %>
-          </span>
-          <% if risk["severity"] == "avoid" %>
-            <span class="risk-severity-avoid">(非推奨の組み合わせ)</span>
-          <% end %>
-        </p>
-        <p><%= risk["note"] %></p>
-        <% if risk["source_note"].present? %>
-          <p style="font-size: 0.85rem; color: #666;">出典: <%= risk["source_note"] %></p>
-        <% end %>
-      </div>
-    <% end %>
-  <% end %>
 </div>

@@ -1,17 +1,20 @@
-<% content_for :title, "モルフ図鑑" %>
+<% content_for :title, "#{@result.type.name}のモルフ図鑑" %>
 
 <div class="morphs-wrapper">
-  <h1>モルフ図鑑</h1>
-  <p>レオパードゲッコーのモルフ(品種)を紹介します。</p>
+  <p><%= link_to "← 診断結果に戻る", result_path(@result) %></p>
+
+  <h1><%= @result.type.name %>のモルフ図鑑</h1>
 
   <% if @error %>
     <p style="color: #a10000;">図鑑APIに接続できませんでした。しばらくしてから再度お試しください。</p>
+  <% elsif @species_code.nil? %>
+    <p>この爬虫類のモルフ図鑑は準備中です。</p>
   <% elsif @morphs.blank? %>
     <p>モルフが登録されていません。</p>
   <% else %>
     <div class="morph-grid">
       <% @morphs.each do |morph| %>
-        <%= link_to morph_path(morph["code"]), class: "morph-card" do %>
+        <%= link_to result_morph_path(@result, morph["code"]), class: "morph-card" do %>
           <h3><%= morph["name"] %></h3>
           <p><%= morph["description"] %></p>
         <% end %>
