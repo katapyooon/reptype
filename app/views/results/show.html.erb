@@ -12,6 +12,9 @@
     <% if @result.type.image_path.present? %>
       <%= link_to "質問してみよう！", result_chat_path(@result), class: "btn btn-success" %>
     <% end %>
+    <% if @result.type.name == "ヒョウモントカゲモドキ" %>
+      <%= link_to "モルフ図鑑を見る", morphs_path, class: "btn btn-secondary" %>
+    <% end %>
   </div>
   <%= link_to "もっと詳しく見る", pdf_preview_result_path(@result), class: "btn btn-secondary", target: "_blank" %>
 </div>

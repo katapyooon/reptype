@@ -1,0 +1,51 @@
+.morphs-wrapper {
+  background: #ffffff;
+  padding: 20px;
+  max-width: 840px;
+  margin: 24px auto;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+  border-radius: 8px;
+  text-align: left;
+}
+
+.morph-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.morph-card {
+  display: block;
+  padding: 14px 16px;
+  border-radius: 6px;
+  background: #f7f7f7;
+  text-decoration: none;
+  color: inherit;
+}
+
+.morph-card:hover {
+  background: #eef0f2;
+}
+
+.morph-card h3 {
+  margin: 0 0 6px;
+}
+
+.risk-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  margin: 2px 4px 2px 0;
+}
+
+.risk-badge.lethal { background: #fde2e2; color: #a10000; }
+.risk-badge.neurological { background: #fff2cc; color: #7a5b00; }
+.risk-badge.tumor { background: #f0e2fd; color: #5b1aa1; }
+
+.risk-severity-avoid { font-weight: bold; }
+
+@media (max-width: 600px) {
+  .morphs-wrapper { padding: 12px; margin: 12px; }
+}
