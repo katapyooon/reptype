@@ -57,5 +57,21 @@ func SeedFixtures(ctx context.Context, pool *pgxpool.Pool) error {
 		return fmt.Errorf("failed to seed tangerine morph: %w", err)
 	}
 
+	// A second species with a morph reusing the same code as the leopard gecko's
+	// Tangerine, to verify species-scoped queries don't leak across species.
+	var otherSpeciesID int
+	if err := pool.QueryRow(ctx, `
+		INSERT INTO species (code) VALUES ('ball_python') RETURNING id
+	`).Scan(&otherSpeciesID); err != nil {
+		return fmt.Errorf("failed to seed ball_python species: %w", err)
+	}
+
+	if _, err := pool.Exec(ctx, `
+		INSERT INTO morphs (species_id, code, name, description)
+		VALUES ($1, 'tangerine', 'Ball Python Tangerine', 'other species tangerine description')
+	`, otherSpeciesID); err != nil {
+		return fmt.Errorf("failed to seed ball_python tangerine morph: %w", err)
+	}
+
 	return nil
 }

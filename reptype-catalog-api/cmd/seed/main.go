@@ -83,14 +83,14 @@ var morphs = []morph{
 	{code: "tremper_albino", name: "Tremper Albino", description: "灰色がかったピンクの目と、冷たいラベンダー・イエロー系の体色が特徴のアルビノ系統。", geneCodes: []string{"tremper_albino"}},
 	{code: "rainwater_albino", name: "Rainwater Albino", description: "淡いピンクの目と、柔らかいクリーム・イエロー系の体色が特徴のアルビノ系統。", geneCodes: []string{"rainwater_albino"}},
 	{code: "bell_albino", name: "Bell Albino", description: "ピンクがかった目と、暖かみのあるイエロー・ピンク系の体色が特徴のアルビノ系統。", geneCodes: []string{"bell_albino"}},
-	{code: "mack_snow", name: "Mack Snow", description: "黒色色素が減少し、白っぽい地色になる不完全優性のモルフ。ホモ接合はSuper Snowと呼ばれる。", geneCodes: []string{"mack_snow"}},
-	{code: "enigma", name: "Enigma", description: "不規則な斑点模様が特徴の優性モルフ。エニグマ症候群のリスクを伴う。", geneCodes: []string{"enigma"}},
-	{code: "lemon_frost", name: "Lemon Frost", description: "白色の増加と明るい黄色・オレンジ色が特徴の半優性モルフ。腫瘍のリスクを伴う。", geneCodes: []string{"lemon_frost"}},
+	{code: "mack_snow", name: "Mack Snow", description: "黒色色素が減少し、白っぽい地色になるモルフ。", geneCodes: []string{"mack_snow"}},
+	{code: "enigma", name: "Enigma", description: "不規則な斑点模様が特徴のモルフ。", geneCodes: []string{"enigma"}},
+	{code: "lemon_frost", name: "Lemon Frost", description: "白色の増加と明るい黄色・オレンジ色が特徴のモルフ。", geneCodes: []string{"lemon_frost"}},
 	// ポリジーン(複数遺伝子が関与し、単純なメンデル比が存在しない)のラインブリード系統。
 	// 単一遺伝子座を前提としたgenesには紐付けず、図鑑表示専用のモルフとして登録する。
-	{code: "tangerine", name: "Tangerine", description: "体の黒色色素を減らし、オレンジ色を濃くする選抜交配によるラインブリード系統。複数遺伝子が関与しメンデル比はない。", geneCodes: []string{}},
-	{code: "black_night", name: "Black Night", description: "最も黒みの強い個体同士を選抜交配することで黒色を濃くしたラインブリード系統。複数遺伝子が関与しメンデル比はない。", geneCodes: []string{}},
-	{code: "inferno", name: "Inferno", description: "Albey, TUG, Electric Tangerineの各ラインを組み合わせた、全身が赤みを帯びたオレンジ色になるラインブリード系統。", geneCodes: []string{}},
+	{code: "tangerine", name: "Tangerine", description: "体の黒色色素を減らし、オレンジ色を濃くしたモルフ。", geneCodes: []string{}},
+	{code: "black_night", name: "Black Night", description: "黒色を濃くしたモルフ。", geneCodes: []string{}},
+	{code: "inferno", name: "Inferno", description: "全身が赤みを帯びたオレンジ色になるモルフ。", geneCodes: []string{}},
 }
 
 var combinationRisks = []combinationRisk{

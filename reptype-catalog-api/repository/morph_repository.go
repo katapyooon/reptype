@@ -13,12 +13,16 @@ import (
 
 var ErrMorphNotFound = errors.New("morph not found")
 
-func ListMorphs(ctx context.Context, pool *pgxpool.Pool) ([]model.Morph, error) {
+// ListMorphs returns morphs ordered by id. When speciesCode is non-empty,
+// the result is limited to morphs belonging to that species.
+func ListMorphs(ctx context.Context, pool *pgxpool.Pool, speciesCode string) ([]model.Morph, error) {
 	rows, err := pool.Query(ctx, `
-		SELECT code, name, description
-		FROM morphs
-		ORDER BY id
-	`)
+		SELECT m.code, m.name, m.description
+		FROM morphs m
+		JOIN species s ON s.id = m.species_id
+		WHERE $1 = '' OR s.code = $1
+		ORDER BY m.id
+	`, speciesCode)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query morphs: %w", err)
 	}
@@ -43,16 +47,21 @@ func ListMorphs(ctx context.Context, pool *pgxpool.Pool) ([]model.Morph, error) 
 	return morphs, nil
 }
 
-func GetMorphDetail(ctx context.Context, pool *pgxpool.Pool, code string) (*model.MorphDetail, error) {
+// GetMorphDetail looks up a morph by code. When speciesCode is non-empty,
+// the lookup is limited to that species; codes are only unique within a
+// species (UNIQUE(species_id, code)), so passing it avoids ambiguity once
+// multiple species are seeded.
+func GetMorphDetail(ctx context.Context, pool *pgxpool.Pool, speciesCode, code string) (*model.MorphDetail, error) {
 	var detail model.MorphDetail
 	var morphID int
 	var description *string
 
 	err := pool.QueryRow(ctx, `
-		SELECT id, code, name, description
-		FROM morphs
-		WHERE code = $1
-	`, code).Scan(&morphID, &detail.Code, &detail.Name, &description)
+		SELECT m.id, m.code, m.name, m.description
+		FROM morphs m
+		JOIN species s ON s.id = m.species_id
+		WHERE m.code = $1 AND ($2 = '' OR s.code = $2)
+	`, code, speciesCode).Scan(&morphID, &detail.Code, &detail.Name, &description)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, ErrMorphNotFound
