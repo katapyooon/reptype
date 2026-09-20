@@ -61,7 +61,7 @@ jobs:
             ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY_APP }}:${{ env.IMAGE_TAG }}
             ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY_APP }}:latest
           cache-from: type=gha,scope=app
-          cache-to: type=gha,mode=min,scope=app
+          cache-to: type=gha,mode=max,scope=app
 
       - name: Build, tag, and push nginx image to ECR
         id: build-nginx
@@ -78,7 +78,7 @@ jobs:
             ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY_NGINX }}:${{ env.IMAGE_TAG }}
             ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY_NGINX }}:latest
           cache-from: type=gha,scope=nginx
-          cache-to: type=gha,mode=min,scope=nginx
+          cache-to: type=gha,mode=max,scope=nginx
 
       - name: Download current task definition
         run: |
