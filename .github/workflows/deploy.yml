@@ -23,10 +23,12 @@ env:
   CONTAINER_NAME_NGINX: nginx
 
 jobs:
-  deploy:
-    name: Deploy
+  build-app:
+    name: Build app image
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
+    outputs:
+      image: ${{ steps.build-app.outputs.image }}
 
     steps:
       - name: Checkout
@@ -59,6 +61,28 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY_APP:latest
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_APP:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
+  build-nginx:
+    name: Build nginx image
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    outputs:
+      image: ${{ steps.build-nginx.outputs.image }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
       - name: Build, tag, and push nginx image to ECR
         id: build-nginx
         env:
@@ -75,6 +99,22 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY_NGINX:latest
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_NGINX:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
+  deploy:
+    name: Deploy
+    needs:
+      - build-app
+      - build-nginx
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
       - name: Download current task definition
         run: |
           aws ecs describe-task-definition \
@@ -88,7 +128,7 @@ jobs:
         with:
           task-definition: task-definition.json
           container-name: ${{ env.CONTAINER_NAME_APP }}
-          image: ${{ steps.build-app.outputs.image }}
+          image: ${{ needs.build-app.outputs.image }}
 
       - name: Update nginx container image in task definition
         id: render-nginx
@@ -96,7 +136,7 @@ jobs:
         with:
           task-definition: ${{ steps.render-app.outputs.task-definition }}
           container-name: ${{ env.CONTAINER_NAME_NGINX }}
-          image: ${{ steps.build-nginx.outputs.image }}
+          image: ${{ needs.build-nginx.outputs.image }}
 
       - name: Deploy to Amazon ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
