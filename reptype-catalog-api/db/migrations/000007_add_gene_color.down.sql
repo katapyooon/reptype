@@ -1,0 +1,1 @@
+ALTER TABLE genes DROP COLUMN color;
