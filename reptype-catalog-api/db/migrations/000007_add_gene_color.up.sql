@@ -1,0 +1,1 @@
+ALTER TABLE genes ADD COLUMN color VARCHAR;
