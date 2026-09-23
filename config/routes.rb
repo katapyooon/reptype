@@ -1,18 +1,18 @@
 Rails.application.routes.draw do
-  resources :answers
-  # root must use the controller#action form
-  get "home/index"
+  # 公開するのは診断フローで実際に使うルートのみ。
+  # マスタデータ(Type / Question / Result)は db/*_seeds.rb で管理するため、CRUD画面は公開しない。
   root "home#index"
-  resources :questions do
+
+  resources :questions, only: [ :index ] do
     member do
       post "answer"
     end
   end
 
-  ## results
-  # Keep legacy named helper `results_index_path` / `results_index_url` for tests
-  get "results/index", to: "results#index", as: :results_index
-  resources :results, only: [ :index, :show, :create, :edit, :update, :destroy ] do
+  # likert_controller.js が1問回答するごとに保存する
+  resources :answers, only: [ :create ]
+
+  resources :results, only: [ :show, :create ] do
     member do
       get :export_pdf
       get :pdf_preview
@@ -20,8 +20,6 @@ Rails.application.routes.draw do
     resource :chat, only: [ :show, :create ]
     resources :morphs, only: [ :index, :show ], param: :code
   end
-
-  resources :types
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

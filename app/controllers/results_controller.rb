@@ -1,27 +1,13 @@
 class ResultsController < ApplicationController
-  before_action :set_result, only: %i[ show edit update destroy export_pdf pdf_preview ]
+  before_action :set_result, only: %i[ show export_pdf pdf_preview ]
   before_action :authorize_result!, only: %i[ show export_pdf pdf_preview ]
 
-  # GET /results or /results.json
-  def index
-    @results = Result.all
-  end
-
-  # GET /results/1 or /results/1.json
+  # GET /results/1
   def show
     # @result は set_result で設定済み（二重findを削除）
   end
 
-  # GET /results/new
-  def new
-    @result = Result.new
-  end
-
-  # GET /results/1/edit
-  def edit
-  end
-
-  # POST /results or /results.json
+  # POST /results
   def create
     # バリデーション: 全問回答したかチェック
     question_count = Question.count
@@ -58,30 +44,7 @@ class ResultsController < ApplicationController
       redirect_to result_path(result)
     else
       Rails.logger.warn "[ResultsController#create] No Result found for code=#{code.inspect}"
-      redirect_to results_path, alert: "結果が見つかりませんでした。管理者にお問い合わせください。"
-    end
-  end
-
-  # PATCH/PUT /results/1 or /results/1.json
-  def update
-    respond_to do |format|
-      if @result.update(result_params)
-        format.html { redirect_to @result, notice: "Result was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @result }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @result.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /results/1 or /results/1.json
-  def destroy
-    @result.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to results_path, notice: "Result was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+      redirect_to questions_path, alert: "結果が見つかりませんでした。管理者にお問い合わせください。"
     end
   end
 
@@ -101,16 +64,6 @@ class ResultsController < ApplicationController
       disposition: "attachment"
   end
 
-  def calculate_result
-    answers = Answer.order(created_at: :desc).limit(20)
-
-    calculator = Calculator.new(answers)
-    code = calculator.result_code
-
-    result = Result.includes(:type).find_by(code: code)
-    redirect_to result_path(result)
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_result
@@ -123,10 +76,5 @@ class ResultsController < ApplicationController
       unless authorized_ids.include?(@result.id)
         redirect_to root_path, alert: "アクセス権限がありません。診断を完了してから結果を確認してください。"
       end
-    end
-
-    # Only allow a list of trusted parameters through.
-    def result_params
-      params.expect(result: [ :code, :type_id, :summary, :explanation ])
     end
 end

@@ -10,39 +10,17 @@ class QuestionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get new" do
-    get new_question_url
-    assert_response :success
-  end
-
-  test "should create question" do
-    assert_difference("Question.count") do
-      post questions_url, params: { question: { category: @question.category, content: @question.content, position: @question.position } }
-    end
-
-    assert_redirected_to question_url(Question.last)
-  end
-
-  test "should show question" do
-    get question_url(@question)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_question_url(@question)
-    assert_response :success
-  end
-
-  test "should update question" do
-    patch question_url(@question), params: { question: { category: @question.category, content: @question.content, position: @question.position } }
-    assert_redirected_to question_url(@question)
-  end
-
-  test "should destroy question" do
-    assert_difference("Question.count", -1) do
-      delete question_url(@question)
-    end
-
+  test "answer redirects to index" do
+    post answer_question_url(@question)
     assert_redirected_to questions_url
+  end
+
+  test "does not expose CRUD actions other than index" do
+    assert_no_route :get, "/questions/new"
+    assert_no_route :get, "/questions/#{@question.id}"
+    assert_no_route :get, "/questions/#{@question.id}/edit"
+    assert_no_route :post, "/questions"
+    assert_no_route :patch, "/questions/#{@question.id}"
+    assert_no_route :delete, "/questions/#{@question.id}"
   end
 end

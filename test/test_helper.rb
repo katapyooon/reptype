@@ -41,3 +41,15 @@ module ActiveSupport
     end
   end
 end
+
+module ActionDispatch
+  class IntegrationTest
+    # 認証なしで公開したくないルートが存在しないことを確認する
+    def assert_no_route(verb, path)
+      recognized = Rails.application.routes.recognize_path(path, method: verb)
+      flunk "expected no route for #{verb.upcase} #{path}, but it routes to #{recognized.inspect}"
+    rescue ActionController::RoutingError
+      pass
+    end
+  end
+end

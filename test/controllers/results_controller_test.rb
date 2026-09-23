@@ -5,44 +5,20 @@ class ResultsControllerTest < ActionDispatch::IntegrationTest
     @result = results(:one)
   end
 
-  test "should get index" do
-    get results_index_url
-    assert_response :success
+  test "show redirects to root when the result is not authorized" do
+    get result_url(@result)
+    assert_redirected_to root_url
   end
 
-  # test "should get new" do
-  #   get new_result_url
-  #   assert_response :success
-  # end
+  test "create redirects to questions when answers are missing" do
+    post results_url
+    assert_redirected_to questions_url
+  end
 
-  # test "should create result" do
-  #   assert_difference("Result.count") do
-  #     post results_url, params: { result: { code: @result.code, explanation: @result.explanation, summary: @result.summary, type_id: @result.type_id } }
-  #   end
-
-  #   assert_redirected_to result_url(Result.last)
-  # end
-
-  # test "should show result" do
-  #   get result_url(@result)
-  #   assert_response :success
-  # end
-
-  # test "should get edit" do
-  #   get edit_result_url(@result)
-  #   assert_response :success
-  # end
-
-  # test "should update result" do
-  #   patch result_url(@result), params: { result: { code: @result.code, explanation: @result.explanation, summary: @result.summary, type_id: @result.type_id } }
-  #   assert_redirected_to result_url(@result)
-  # end
-
-  # test "should destroy result" do
-  #   assert_difference("Result.count", -1) do
-  #     delete result_url(@result)
-  #   end
-
-  #   assert_redirected_to results_url
-  # end
+  test "does not expose index, edit, update or destroy" do
+    assert_no_route :get, "/results"
+    assert_no_route :get, "/results/#{@result.id}/edit"
+    assert_no_route :patch, "/results/#{@result.id}"
+    assert_no_route :delete, "/results/#{@result.id}"
+  end
 end
