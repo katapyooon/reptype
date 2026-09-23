@@ -5,9 +5,19 @@ class ResultsControllerTest < ActionDispatch::IntegrationTest
     @result = results(:one)
   end
 
-  test "show redirects to root when the result is not authorized" do
+  test "show returns 404 when the result is not authorized" do
     get result_url(@result)
-    assert_redirected_to root_url
+    assert_response :not_found
+  end
+
+  test "pdf_preview returns 404 when the result is not authorized" do
+    get pdf_preview_result_url(@result)
+    assert_response :not_found
+  end
+
+  test "export_pdf returns 404 when the result is not authorized" do
+    get export_pdf_result_url(@result)
+    assert_response :not_found
   end
 
   test "create redirects to questions when answers are missing" do

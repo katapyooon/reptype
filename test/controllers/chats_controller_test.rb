@@ -47,10 +47,10 @@ class ChatsControllerTest < ActionDispatch::IntegrationTest
     assert_error :unprocessable_entity, "質問は400文字以内にしてね！"
   end
 
-  test "create returns 403 when the result is not authorized" do
+  test "create returns 404 when the result is not authorized" do
     post_question "夜行性ですか？"
 
-    assert_error :forbidden, "セッションが切れました。もう一度診断してください。"
+    assert_error :not_found, "診断結果が見つかりませんでした。もう一度診断してください。"
   end
 
   test "create returns 404 when the result does not exist" do
@@ -71,10 +71,10 @@ class ChatsControllerTest < ActionDispatch::IntegrationTest
     assert_error :service_unavailable, "いまは答えられないみたい。少し待ってからまた聞いてね！"
   end
 
-  test "show redirects to the result when not authorized" do
+  test "show returns 404 when not authorized" do
     get result_chat_url(@result)
 
-    assert_redirected_to result_url(@result)
+    assert_response :not_found
   end
 
   private

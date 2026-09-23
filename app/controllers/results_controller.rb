@@ -1,4 +1,6 @@
 class ResultsController < ApplicationController
+  include ResultAuthorization
+
   before_action :set_result, only: %i[ show export_pdf pdf_preview ]
   before_action :authorize_result!, only: %i[ show export_pdf pdf_preview ]
 
@@ -68,13 +70,5 @@ class ResultsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_result
       @result = Result.find(params.expect(:id))
-    end
-
-    # ④: セッションに保存された認可済みresult_idと照合する
-    def authorize_result!
-      authorized_ids = session[:authorized_result_ids] || []
-      unless authorized_ids.include?(@result.id)
-        redirect_to root_path, alert: "アクセス権限がありません。診断を完了してから結果を確認してください。"
-      end
     end
 end

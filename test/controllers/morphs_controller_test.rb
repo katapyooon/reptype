@@ -9,17 +9,29 @@ class MorphsControllerTest < ActionDispatch::IntegrationTest
     @other_result = Result.create!(code: "OTHER_TEST", type: @other_type)
   end
 
-  test "index redirects to root when the result is not authorized" do
+  test "index returns 404 when the result is not authorized" do
     get result_morphs_url(@leopard_result)
-    assert_redirected_to root_url
+    assert_response :not_found
   end
 
-  test "index redirects to root when the catalog feature flag is disabled" do
+  test "index returns 404 when the catalog feature flag is disabled" do
     with_catalog_disabled do
-      get result_morphs_url(@leopard_result)
+      as_authorized(@leopard_result) do
+        get result_morphs_url(@leopard_result)
+      end
     end
 
-    assert_redirected_to root_url
+    assert_response :not_found
+  end
+
+  test "show returns 404 when the catalog feature flag is disabled" do
+    with_catalog_disabled do
+      as_authorized(@leopard_result) do
+        get result_morph_url(@leopard_result, "enigma")
+      end
+    end
+
+    assert_response :not_found
   end
 
   test "should get index for a species with catalog data" do
