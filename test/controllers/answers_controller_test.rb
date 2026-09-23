@@ -5,44 +5,26 @@ class AnswersControllerTest < ActionDispatch::IntegrationTest
     @answer = answers(:one)
   end
 
-  test "should get index" do
-    get answers_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_answer_url
-    assert_response :success
-  end
-
   test "should create answer" do
     assert_difference("Answer.count") do
-      post answers_url, params: { answer: { question_id: @answer.question_id, score: @answer.score } }
+      post answers_url, params: { answer: { question_id: @answer.question_id, score: @answer.score } }, as: :json
     end
 
-    assert_redirected_to answer_url(Answer.last)
+    assert_response :created
   end
 
-  test "should show answer" do
-    get answer_url(@answer)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_answer_url(@answer)
-    assert_response :success
-  end
-
-  test "should update answer" do
-    patch answer_url(@answer), params: { answer: { question_id: @answer.question_id, score: @answer.score } }
-    assert_redirected_to answer_url(@answer)
-  end
-
-  test "should destroy answer" do
-    assert_difference("Answer.count", -1) do
-      delete answer_url(@answer)
+  test "should not create answer with invalid score" do
+    assert_no_difference("Answer.count") do
+      post answers_url, params: { answer: { question_id: @answer.question_id, score: 99 } }, as: :json
     end
 
-    assert_redirected_to answers_url
+    assert_response :unprocessable_entity
+  end
+
+  test "does not expose index, show, update or destroy" do
+    assert_no_route :get, "/answers"
+    assert_no_route :get, "/answers/#{@answer.id}"
+    assert_no_route :patch, "/answers/#{@answer.id}"
+    assert_no_route :delete, "/answers/#{@answer.id}"
   end
 end
