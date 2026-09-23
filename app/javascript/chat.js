@@ -155,10 +155,15 @@ function initChat() {
         body: JSON.stringify({ question: question })
       });
 
-      var data = await res.json();
+      // エラー時は HTML が返ることもあるため、JSON として読めなくても続行する
+      var data = await res.json().catch(function() { return {}; });
 
       loadingRow.remove();
-      appendRow("left", data.answer || "回答を取得できなかったよ。");
+      if (res.ok) {
+        appendRow("left", data.answer || "回答を取得できなかったよ。");
+      } else {
+        appendRow("left", (data.error && data.error.message) || "エラーが発生したよ。もう一度試してみてね。");
+      }
     } catch (_) {
       loadingRow.remove();
       appendRow("left", "エラーが発生したよ。もう一度試してみてね。");
