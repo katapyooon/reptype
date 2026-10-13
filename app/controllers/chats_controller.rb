@@ -1,4 +1,6 @@
 class ChatsController < ApplicationController
+  include ResultAuthorization
+
   QUESTION_MAX_LENGTH = 400
 
   # Bedrock(埋め込み・回答生成)を呼べなかったときの例外
@@ -52,17 +54,7 @@ class ChatsController < ApplicationController
     @result = Result.find(params[:result_id])
   end
 
-  def authorize_result!
-    authorized_ids = session[:authorized_result_ids] || []
-    unless authorized_ids.include?(@result.id)
-      if action_name == "show"
-        redirect_to result_path(@result), alert: "セッションが切れました。もう一度診断してください。"
-      else
-        render_error :forbidden, "セッションが切れました。もう一度診断してください。"
-      end
-    end
-  end
-
+  # 結果が存在しない・未認可のどちらも 404(ResultAuthorization 参照)。
   # show(HTML)は通常どおり 404 ページ、create(JSON)は JSON で 404 を返す
   def result_not_found(exception)
     raise exception if action_name == "show"
