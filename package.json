@@ -2,6 +2,6 @@
   "name": "reptype",
   "private": true,
   "dependencies": {
-    "puppeteer": "^25.7.0"
+    "puppeteer": "^25.16.0"
   }
 }
