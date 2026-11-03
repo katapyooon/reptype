@@ -6,6 +6,11 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "shows service close notice" do
+    get root_url
+    assert_select ".service-close-notice", text: /2026年11月8日/
+  end
+
   test "does not expose type management" do
     assert_no_route :get, "/types"
     assert_no_route :post, "/types"
