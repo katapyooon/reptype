@@ -8,7 +8,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
 
   test "shows service close notice" do
     get root_url
-    assert_select ".service-close-notice", text: /2026年11月9日/
+    assert_select ".service-close-notice", text: /2026年11月8日/
   end
 
   test "does not expose type management" do
